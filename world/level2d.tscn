@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://d2ufjf8lvutq6"]
+
+[ext_resource type="Script" uid="uid://xjoc2v5kwa2h" path="res://world/level2d.gd" id="1_hb3p1"]
+[ext_resource type="Texture2D" uid="uid://yc1574dkflun" path="res://assets/city03_preview-01.png" id="2_xj5p5"]
+
+[node name="Level" type="Node2D" unique_id=1771631929]
+script = ExtResource("1_hb3p1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1158180083]
+position = Vector2(575.2499, 321.74994)
+scale = Vector2(0.59661466, 0.59490746)
+texture = ExtResource("2_xj5p5")
+
+[node name="Label" type="Label" parent="." unique_id=1069653483]
+visible = false
+offset_left = 24.0
+offset_top = 13.0
+offset_right = 164.0
+offset_bottom = 71.0
+theme_override_font_sizes/font_size = 32
+text = "SERVER"
+
+[node name="Button" type="Button" parent="." unique_id=542568351]
+visible = false
+offset_left = 25.0
+offset_top = 39.0
+offset_right = 145.0
+offset_bottom = 88.0
+text = "CONNECT"
+
+[node name="Label2" type="Label" parent="." unique_id=569724001]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 357.0
+offset_top = 274.0
+offset_right = 847.0
+offset_bottom = 362.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "CONNECTING...."

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cye2uya10358j"]
+
+[ext_resource type="PackedScene" uid="uid://cd3ulcebp3bjw" path="res://entities/cube/basic_cube.tscn" id="1_o7358"]
+[ext_resource type="Script" uid="uid://wefh3s4fd0uo" path="res://entities/cube/stationary_cube.gd" id="1_rkbxc"]
+
+[node name="StationaryCube" type="RigidBody3D" unique_id=1615031134]
+collision_layer = 2
+collision_mask = 5
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+gravity_scale = 0.0
+script = ExtResource("1_rkbxc")
+
+[node name="BasicCube" parent="." unique_id=985122360 instance=ExtResource("1_o7358")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=960559984]
+
+[node name="PickUpArea3D" type="Area3D" parent="." unique_id=1760247424]
+collision_layer = 2
+collision_mask = 4
+
+[node name="PickupCollisionShape" type="CollisionShape3D" parent="PickUpArea3D" unique_id=1675299835]
+
+[connection signal="body_entered" from="PickUpArea3D" to="." method="_on_pickup_area_entered"]

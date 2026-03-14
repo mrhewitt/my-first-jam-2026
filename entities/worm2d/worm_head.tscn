@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://baru26u8lsvws"]
+
+[ext_resource type="Script" uid="uid://ccce4k0dg2m5w" path="res://entities/worm2d/worm_head.gd" id="1_uyboy"]
+[ext_resource type="Script" uid="uid://d0effin8df6ie" path="res://scripts/worm/mouse_destination_provider.gd" id="2_6a855"]
+[ext_resource type="Script" uid="uid://dm7nvsdvwdg47" path="res://scripts/worm/destination_sync.gd" id="3_oya5t"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_tfcj3"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tfcj3"]
+radius = 32.140316
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tfcj3"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sftr0"]
+properties/0/path = NodePath(".:destination")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[node name="WormHead" type="CharacterBody2D" unique_id=639720240]
+script = ExtResource("1_uyboy")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=877475914]
+texture = SubResource("PlaceholderTexture2D_tfcj3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=984088170]
+shape = SubResource("CircleShape2D_tfcj3")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2099027927]
+replication_config = SubResource("SceneReplicationConfig_tfcj3")
+
+[node name="DestinationProvider" type="Node" parent="." unique_id=2059677890]
+script = ExtResource("2_6a855")
+
+[node name="DestinationSync" type="Node" parent="." unique_id=592454181 node_paths=PackedStringArray("provider")]
+script = ExtResource("3_oya5t")
+provider = NodePath("../DestinationProvider")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="DestinationSync" unique_id=1344426966]
+replication_config = SubResource("SceneReplicationConfig_sftr0")

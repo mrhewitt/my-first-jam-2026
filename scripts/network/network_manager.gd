@@ -1,0 +1,74 @@
+extends Node
+## Autoload for managing multiplayer network connections
+##
+##
+
+
+const SERVER_PORT = 6069
+const SERVER_ADDR = "ws://127.0.0.1:6069"
+
+
+## Emitted when a client loses connection to a server
+signal server_connection_lost
+
+## Emitted when a client has successfuly connected to the server
+## [param peer_id] is the clients peer id for authentiation
+signal client_connected(peer_id: int)
+
+## Emitted when a client has been dropped/left
+signal client_disconnected(peer_id: int)
+
+
+## Emitted when a server has successfully started up
+signal server_started
+
+
+var is_server: bool = false
+
+
+func _ready() -> void: 
+	get_multiplayer().peer_connected.connect( func(id): client_connected.emit(id) )
+	get_multiplayer().peer_disconnected.connect( func(id): client_disconnected.emit(id) )
+
+
+func create_server() -> void:
+	var network_peer: WebSocketMultiplayerPeer = WebSocketMultiplayerPeer.new()
+	network_peer.create_server(SERVER_PORT)
+	get_multiplayer().multiplayer_peer = network_peer
+	is_server = true
+	print("Server created")
+	server_started.emit()
+	
+	
+func connect_to_server( ) -> void:
+	is_server = false
+	_setup_client_connection_signals()
+	
+	var network_peer: WebSocketMultiplayerPeer = WebSocketMultiplayerPeer.new()
+	network_peer.create_client(SERVER_ADDR)
+	get_multiplayer().multiplayer_peer = network_peer
+	
+	print("Client connection pending")
+	#connected_to_server.emit( get_tree().get_multiplayer().get_unique_id() )
+		
+
+func _setup_client_connection_signals() -> void:
+	if not get_multiplayer().server_disconnected.is_connected(_server_disconnected):
+		get_multiplayer().server_disconnected.connect( _server_disconnected )
+	
+
+func _disconnect_client_connection_signals():
+	for connection in get_multiplayer().server_disconnected.get_connections():
+		get_multiplayer().server_disconnected.disconnect(connection.callable)
+		
+		
+func _server_disconnected() -> void:
+	print("Lost server...")
+	_terminate_connection()
+	server_connection_lost.emit()
+
+
+func _terminate_connection():
+	print("Terminate connection")
+	get_multiplayer().multiplayer_peer = null
+	_disconnect_client_connection_signals()

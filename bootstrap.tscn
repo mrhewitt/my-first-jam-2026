@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dn2hsvjptsngj"]
+
+[ext_resource type="Script" uid="uid://ddmsbgmvu5rbj" path="res://bootstrap.gd" id="1_tp0nq"]
+
+[node name="Bootstrap" type="Node" unique_id=1976567838]
+script = ExtResource("1_tp0nq")
+
+[node name="MapHost" type="Node" parent="." unique_id=1110640589]
+unique_name_in_owner = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=15057866]
+unique_name_in_owner = true
+_spawnable_scenes = PackedStringArray("uid://baru26u8lsvws")

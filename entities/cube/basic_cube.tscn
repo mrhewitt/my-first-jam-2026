@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cd3ulcebp3bjw"]
+
+[ext_resource type="Script" uid="uid://drc71a5v2tqy0" path="res://entities/cube/basic_cube.gd" id="1_cmh4d"]
+[ext_resource type="BoxMesh" uid="uid://daikc28cfmjsx" path="res://resources/cube_shape_mesh.tres" id="3_85fhd"]
+
+[node name="BasicCube" type="Node3D" unique_id=985122360]
+script = ExtResource("1_cmh4d")
+shape_mesh = ExtResource("3_85fhd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2007477282]

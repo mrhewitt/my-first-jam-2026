@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://ho8usudkqm3j"]
+
+[ext_resource type="PackedScene" uid="uid://bhmi3a6gxf46s" path="res://entities/worm/worm_segment.tscn" id="1_uyboy"]
+[ext_resource type="Script" uid="uid://brgn5frysesc7" path="res://entities/worm/head_to_point_3d.gd" id="2_oya5t"]
+[ext_resource type="Script" uid="uid://10qr6k84f6f4" path="res://entities/worm/worm_head_cube.gd" id="2_sftr0"]
+[ext_resource type="Script" uid="uid://dbkc4b6ll1nuf" path="res://entities/worm/mouse_tracker.gd" id="3_sftr0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qh6x4"]
+albedo_color = Color(0, 0, 0, 1)
+
+[node name="WormHeadCube" unique_id=207147902 instance=ExtResource("1_uyboy")]
+collision_layer = 4
+script = ExtResource("2_sftr0")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="BasicCube" parent_id_path=PackedInt32Array(985122360) index="1" unique_id=1278946256]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02923584, 0.374807, -1.0867475)
+size = Vector3(0.25, 0.25, 0.25)
+material = SubResource("StandardMaterial3D_qh6x4")
+
+[node name="HeadToPoint3D" type="Node" parent="." index="2" unique_id=1322060095 node_paths=PackedStringArray("motion_source", "transform_source")]
+script = ExtResource("2_oya5t")
+motion_source = NodePath("..")
+transform_source = NodePath("../BasicCube")
+
+[node name="MouseTracker" type="Node3D" parent="." index="3" unique_id=295289469 node_paths=PackedStringArray("camera")]
+script = ExtResource("3_sftr0")
+camera = NodePath("../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="." index="4" unique_id=1633164842]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5.5, 5)
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." index="5" unique_id=455783358]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5.5, 5)
+light_energy = 1.722
+shadow_enabled = true
+sky_mode = 1
