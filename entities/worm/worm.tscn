@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://ktnpnycrinwg"]
+
+[ext_resource type="PackedScene" uid="uid://ho8usudkqm3j" path="res://entities/worm/worm_head_cube.tscn" id="1_8od6l"]
+[ext_resource type="Script" uid="uid://b70h8nfoavucs" path="res://entities/worm/worm.gd" id="1_ee8ld"]
+[ext_resource type="Script" uid="uid://brgn5frysesc7" path="res://entities/worm/head_to_point_3d.gd" id="2_ee8ld"]
+[ext_resource type="Script" uid="uid://dbkc4b6ll1nuf" path="res://scripts/worm/mouse_tracker.gd" id="3_kx2q4"]
+
+[node name="Worm" type="Node3D" unique_id=1483492821]
+script = ExtResource("1_ee8ld")
+
+[node name="Camera3D2" type="Camera3D" parent="." unique_id=1021873414]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5.5, 5)
+
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="." unique_id=1518890639]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5.5, 5)
+light_energy = 1.722
+shadow_enabled = true
+sky_mode = 1
+
+[node name="WormHeadCube" parent="." unique_id=207147902 instance=ExtResource("1_8od6l")]
+
+[node name="HeadToPoint3D" type="Node" parent="WormHeadCube" unique_id=598032164]
+script = ExtResource("2_ee8ld")
+
+[node name="MouseTracker" type="Node3D" parent="WormHeadCube" unique_id=657422906 node_paths=PackedStringArray("camera")]
+script = ExtResource("3_kx2q4")
+camera = NodePath("../../Camera3D2")

@@ -8,7 +8,7 @@ const MATERIAL_PATH = "res://resources/materials/cubes/cube_%d_material.tres"
 @export var min_size: float = 0.5
 
 ## How much cube grows on each size
-@export var growth_factor: float = 2.2
+@export var growth_factor: float = 1.2
 
 ## Box shape matching cube size, assing to your collision shape in compositions
 @export var box_shape: BoxShape3D

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cd3ulcebp3bjw" path="res://entities/cube/basic_cube.tscn" id="1_7ibvi"]
 [ext_resource type="Script" uid="uid://bp0rr4nc6r3h6" path="res://entities/worm/worm_segment.gd" id="1_iq58v"]
 [ext_resource type="Material" uid="uid://b37jpvrtmn3sx" path="res://resources/materials/cubes/cube_4_material.tres" id="3_6thq6"]
+[ext_resource type="PackedScene" uid="uid://2ojb2c4r6mxh" path="res://components/hurt_box.tscn" id="4_b8tih"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iq58v"]
 size = Vector3(0.5, 0.5, 0.5)
@@ -10,7 +11,15 @@ size = Vector3(0.5, 0.5, 0.5)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6thq6"]
 albedo_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b8tih"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b8tih"]
+size = Vector3(0.1, 0.1, 0.1)
+
 [node name="WormSegment" type="CharacterBody3D" unique_id=207147902]
+collision_layer = 8
+collision_mask = 12
 script = ExtResource("1_iq58v")
 
 [node name="BasicCube" parent="." unique_id=985122360 instance=ExtResource("1_7ibvi")]
@@ -20,8 +29,23 @@ cube_material = ExtResource("3_6thq6")
 shape = SubResource("BoxShape3D_iq58v")
 
 [node name="TowPointMarker" type="Marker3D" parent="." unique_id=1874791116]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="TowPointMarker" unique_id=450983126]
 radius = 0.1
 material = SubResource("StandardMaterial3D_6thq6")
+
+[node name="AttachmentPointMarker" type="Marker3D" parent="." unique_id=522962880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="AttachmentPointMarker" unique_id=246778643]
+radius = 0.1
+material = SubResource("StandardMaterial3D_b8tih")
+
+[node name="HurtBox" parent="." unique_id=1268032547 instance=ExtResource("4_b8tih")]
+
+[node name="HurtBoxShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=811433441]
+shape = SubResource("BoxShape3D_b8tih")
+debug_color = Color(0.91764706, 0, 0.88235295, 0.85490197)
+
+[connection signal="hit_by" from="HurtBox" to="." method="_on_hurt_box_hit_by"]

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://ibhj2qh57jnt"]
+
+[ext_resource type="Script" uid="uid://cb51mjec33p06" path="res://world/camera_box.gd" id="1_1kfm8"]
+
+[node name="CameraBox" type="Node3D" unique_id=490544834]
+script = ExtResource("1_1kfm8")
+
+[node name="Camera3D2" type="Camera3D" parent="." unique_id=567001924]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5.5, 5)
+
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="." unique_id=1480688317]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5.5, 5)
+light_energy = 1.722
+shadow_enabled = true
+sky_mode = 1

@@ -79,7 +79,7 @@ move_right={
 3d_physics/layer_1="Environment"
 3d_physics/layer_2="Stationary Cubes"
 3d_physics/layer_3="Player Head"
-3d_physics/layer_4="Player Cubes"
+3d_physics/layer_4="Player Segments"
 
 [physics]
 

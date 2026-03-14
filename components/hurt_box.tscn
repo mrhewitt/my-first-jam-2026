@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://2ojb2c4r6mxh"]
+
+[ext_resource type="Script" uid="uid://sau4rw8mmgb6" path="res://scripts/worm/hurt_box.gd" id="1_1ga43"]
+
+[node name="HurtBox" type="Area3D" unique_id=1425301986]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_1ga43")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
