@@ -10,4 +10,4 @@ unique_name_in_owner = true
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=15057866]
 unique_name_in_owner = true
-_spawnable_scenes = PackedStringArray("uid://cye2uya10358j", "uid://ho8usudkqm3j", "uid://bhmi3a6gxf46s")
+_spawnable_scenes = PackedStringArray("uid://ho8usudkqm3j", "uid://bhmi3a6gxf46s", "uid://cye2uya10358j")

@@ -50,8 +50,15 @@ func connect_to_server( ) -> void:
 	
 	print("Client connection pending")
 	#connected_to_server.emit( get_tree().get_multiplayer().get_unique_id() )
-		
 
+
+## Returns a unique name that can be used for a node to ensure successful replication[br]
+## [i]Node will not replicate if they do not have a name assigned, you MUST set instance.name = ...[br]
+## before adding the node to the scene tree to ensure successful replication[\i]
+func get_unique_name(prefix: String) -> String:
+	return prefix + "_" + UUID.v4()
+	
+	
 func _setup_client_connection_signals() -> void:
 	if not get_multiplayer().server_disconnected.is_connected(_server_disconnected):
 		get_multiplayer().server_disconnected.connect( _server_disconnected )

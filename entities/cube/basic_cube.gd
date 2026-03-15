@@ -36,10 +36,10 @@ func set_value_size_and_material( grow_value: int ) -> void:
 	# scale of the object is the base growth factor to the exponent of the
 	# number of times grow out less one, so first size becomes 1, and subsequantly
 	# ^2  ^4  etc
-	var scale: float = pow(growth_factor, grow_value - 1 )
-	var size: float = scale * min_size
+	var _scale: float = pow(growth_factor, grow_value - 1 )
+	var size: float = _scale * min_size
 	box_shape.size = Vector3(size,size,size) 
-	mesh_instance_3d.scale = Vector3( scale, scale, scale )
+	mesh_instance_3d.scale = Vector3( _scale, _scale, _scale )
 #	mesh_instance_3d.position.y = (mesh_instance_3d.scale.y * 0.5) 
 #	print( mesh_instance_3d.position.y )
 	cube_material = load( MATERIAL_PATH % pow(2,grow_value) )

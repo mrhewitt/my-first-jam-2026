@@ -2,6 +2,10 @@ class_name StationaryCube
 extends RigidBody3D
 ##
 
+
+## Myself as a preload for spawning instances via StationaryCube.instance(...)
+const SELF_SCENE = preload("res://entities/cube/stationary_cube.tscn")
+
 ## Number of times its grown out, 1 == 2, 2 == 4, 3 == 8 etc
 ## [i]Numer value of the block is pow(2,grow_value)[/i]
 @export var grow_value: int = 3
@@ -21,7 +25,14 @@ func _ready() -> void:
 	
 
 func _on_pickup_area_entered(body: Node3D) -> void:
-	if body is WormHeadCube and body.consume_cube(self):
-		# only server can remove the cube or clients produces errors when spawn is replicated
-		if is_multiplayer_authority():
+	if multiplayer.is_server():
+		if body is WormHeadCube and body.consume_cube(self):
 			queue_free()
+			
+			
+static func instance( transform:Transform3D = Transform3D.IDENTITY, grow_value: int = 1 ) -> StationaryCube:
+	var instance: StationaryCube = SELF_SCENE.instantiate()
+	instance.name = NetworkManager.get_unique_name( "StationaryCube_" + str(grow_value) )
+	instance.grow_value = grow_value
+	instance.transform = transform
+	return instance

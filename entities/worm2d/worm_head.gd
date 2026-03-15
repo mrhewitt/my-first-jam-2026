@@ -1,4 +1,5 @@
-class_name WormHead extends CharacterBody2D
+class_name WormHead 
+extends CharacterBody2D
 
 @export var base_speed: float = 50
 @export var full_rotation_speed: float = 2.5

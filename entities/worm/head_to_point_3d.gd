@@ -16,7 +16,7 @@ func _ready() -> void:
 	set_multiplayer_authority( int(get_parent().get_name()) )	
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if multiplayer.is_server():
 	#	print( "Head to point controlled by ", get_multiplayer_authority() )
 		if ( destination_point - target.global_position).length() > 0.1:

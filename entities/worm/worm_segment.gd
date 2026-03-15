@@ -1,9 +1,10 @@
 class_name WormSegment
 extends CharacterBody3D
+##
 
-const STATIONARY_CUBE = preload("res://entities/cube/stationary_cube.tscn")
 
-const WORM_SEGMENT_SCENE = preload("uid://bhmi3a6gxf46s")
+## Myself as a preload for spawning instances via WormSegment.instance(...)
+const SELF_SCENE = preload("uid://bhmi3a6gxf46s")
 
 ## Ref to the cube that we are pulling directly behind us
 @export var pulling_cube: WormSegment
@@ -100,11 +101,6 @@ func add_cube( cube: StationaryCube ) -> void:
 ## if its right value we put it behind us, if not keeps looking back recusively down the tail
 func insert_cube_of_value( value: int ) -> void:
 	if pulling_cube == null or value > pulling_cube.grow_value:
-		#var segment := WORM_SEGMENT_SCENE.instantiate( )
-#		segment.global_basis = global_basis
-		#segment.global_position = global_position + Vector3( sin(rotation.y+PI) * tow_distance, 0, cos(rotation.y+PI) * -tow_distance )
-		#segment.grow_value = cube.grow_value
-		#get_parent().add_child( segment )
 		var segment := create_worm_segment( value )
 		
 		# insert new segment into pulling chain 
@@ -127,10 +123,7 @@ func drop_tail() -> void:
 
 
 func convert_to_stationary() -> void:
-	var instance := STATIONARY_CUBE.instantiate()
-	instance.transform = transform
-	instance.grow_value = grow_value
-	get_parent().add_child(instance)
+	get_parent().add_child( StationaryCube.instance( transform, grow_value ) )
 	queue_free()
 
 
@@ -153,18 +146,17 @@ func check_start_merge_block() -> void:
 
 
 func create_worm_segment( value: int ) -> WormSegment:
-	var segment := WORM_SEGMENT_SCENE.instantiate( )
-	segment.grow_value = value
-	segment.owned_by = self if self.owned_by == null else self.owned_by
+	var segment := WormSegment.instance( self if self.owned_by == null else self.owned_by, value )
 	get_parent().add_child( segment )
 	var td = get_tow_distance()
 	segment.global_position = global_position + Vector3( sin(rotation.y+PI) * td, 0, cos(rotation.y+PI) * -td )
 	return segment
-	
-	
+
+
 func get_tow_distance() -> float:
 	return tow_distance + ( Settings.MIN_BLOCK_SIZE * basic_cube.mesh_instance_3d.scale.x )
-	
+
+
 func _on_timer_timeout() -> void:
 	if pulling_cube:
 		pulling_cube.next_direction(rotation)
@@ -172,3 +164,12 @@ func _on_timer_timeout() -> void:
 
 func _on_hurt_box_hit_by(body: WormHeadCube) -> void:
 	hit_by_worm( body )
+	
+	
+static func instance( owned_by: WormHeadCube, grow_value: int = 1 ) -> WormSegment:
+	var scene_instance: WormSegment = SELF_SCENE.instantiate()
+	# segments are named after the network id of owner 
+	scene_instance.name = NetworkManager.get_unique_name("Segment_" + owned_by.name) 
+	scene_instance.grow_value = grow_value
+	scene_instance.owned_by = owned_by
+	return scene_instance

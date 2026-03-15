@@ -16,13 +16,12 @@ const GAME_WORLD = preload("uid://dwiaescbf4ac6")
 @onready var play_button: Button = $CanvasLayer/PlayButton
 @onready var player_name_input: TextEdit = $CanvasLayer/PlayerNameInput
 
-
 var level_instance: GameWorld
 
 
 func _ready() -> void:
-	#multiplayer_spawner = get_tree().current_scene.get_node("%MultiplayerSpawner")
-	pass
+	player_name_input.text = RandomNameGenerator.pick_one()
+
 
 
 func connect_server() -> void:
@@ -41,8 +40,8 @@ func enter_game() -> void:
 	
 	
 func get_player_name() -> String:
-	var name: String = player_name_input.text 
-	return player_name_input.placeholder_text if name == "" else name 
+	var _name: String = player_name_input.text 
+	return player_name_input.placeholder_text if _name == "" else _name 
 	
 	
 ## Event called when the player is connect to the server
