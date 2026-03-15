@@ -31,6 +31,11 @@ NetworkManager="*uid://6x2n37o1p3fu"
 
 enabled=PackedStringArray("res://addons/godot-jam-template/plugin.cfg", "res://addons/minimize_html_build/plugin.cfg")
 
+[global]
+
+multiplayer_client_host=""
+multiplayer_client_host_scene=""
+
 [input]
 
 screenshot={

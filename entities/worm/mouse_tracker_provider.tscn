@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bhxn6ubwqpdu0"]
+
+[ext_resource type="Script" uid="uid://dbkc4b6ll1nuf" path="res://scripts/worm/mouse_tracker.gd" id="1_fp8qr"]
+
+[node name="MouseTrackerProvider" type="Node" unique_id=134481156]
+script = ExtResource("1_fp8qr")

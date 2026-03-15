@@ -5,6 +5,14 @@
 [ext_resource type="Material" uid="uid://b37jpvrtmn3sx" path="res://resources/materials/cubes/cube_4_material.tres" id="3_6thq6"]
 [ext_resource type="PackedScene" uid="uid://2ojb2c4r6mxh" path="res://components/hurt_box.tscn" id="4_b8tih"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_b8tih"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:grow_value")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_iq58v"]
 size = Vector3(0.5, 0.5, 0.5)
 
@@ -21,6 +29,9 @@ size = Vector3(0.1, 0.1, 0.1)
 collision_layer = 8
 collision_mask = 12
 script = ExtResource("1_iq58v")
+
+[node name="SegmentDataSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=727757791]
+replication_config = SubResource("SceneReplicationConfig_b8tih")
 
 [node name="BasicCube" parent="." unique_id=985122360 instance=ExtResource("1_7ibvi")]
 cube_material = ExtResource("3_6thq6")

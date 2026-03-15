@@ -1,13 +1,9 @@
 [gd_scene format=3 uid="uid://dwiaescbf4ac6"]
 
 [ext_resource type="Script" uid="uid://pr5kokmhd6yx" path="res://world/game_world.gd" id="1_ohoed"]
-[ext_resource type="Texture2D" uid="uid://2pa4k8nc2gnn" path="res://icon.svg" id="2_voc1u"]
-[ext_resource type="PackedScene" uid="uid://cye2uya10358j" path="res://entities/cube/stationary_cube.tscn" id="3_ghf7i"]
-[ext_resource type="PackedScene" uid="uid://ibhj2qh57jnt" path="res://world/camera_box.tscn" id="4_yhyfp"]
+[ext_resource type="PackedScene" uid="uid://cisjl4gscbayh" path="res://world/floor.tscn" id="2_nx7k0"]
 [ext_resource type="PackedScene" uid="uid://ho8usudkqm3j" path="res://entities/worm/worm_head_cube.tscn" id="5_pvxha"]
-[ext_resource type="Script" uid="uid://cur105d7xcxyy" path="res://scripts/worm/ai_provider.gd" id="6_ghf7i"]
 [ext_resource type="Material" uid="uid://biv8u5s64ryh3" path="res://resources/materials/wall_material.tres" id="6_hdkfl"]
-[ext_resource type="Script" uid="uid://dbkc4b6ll1nuf" path="res://scripts/worm/mouse_tracker.gd" id="6_voc1u"]
 [ext_resource type="Script" uid="uid://ckbddmpbwjvm3" path="res://world/game_canvas_layer.gd" id="7_1i7os"]
 
 [sub_resource type="Environment" id="Environment_s5sgh"]
@@ -17,82 +13,92 @@ ambient_light_sky_contribution = 0.0
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ype84"]
-albedo_texture = ExtResource("2_voc1u")
-uv1_scale = Vector3(10, 10, 10)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_fe0n8"]
-material = SubResource("StandardMaterial3D_ype84")
-size = Vector2(100, 100)
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ii704"]
-plane = Plane(100, 0, 100, 0)
-
 [node name="GameWorld" type="Node3D" unique_id=956953127]
 script = ExtResource("1_ohoed")
+worm_head_scene = ExtResource("5_pvxha")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=795104527]
 environment = SubResource("Environment_s5sgh")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1404449298]
-collision_mask = 2
+[node name="Floor" parent="." unique_id=1434417150 instance=ExtResource("2_nx7k0")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=191611730]
-mesh = SubResource("PlaneMesh_fe0n8")
+[node name="SpawnPoint" type="Marker3D" parent="." unique_id=519084191]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2591238, 0.5, 14.865248)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1536800603]
-shape = SubResource("WorldBoundaryShape3D_ii704")
-disabled = true
+[node name="Walls" type="Node3D" parent="." unique_id=492742526]
 
-[node name="StationaryCube" parent="." unique_id=1133966118 instance=ExtResource("3_ghf7i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -4)
-grow_value = 1
-
-[node name="StationaryCube2" parent="." unique_id=1615031134 instance=ExtResource("3_ghf7i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.030768, 0.5, -10.000605)
-grow_value = 1
-
-[node name="StationaryCube3" parent="." unique_id=1316646362 instance=ExtResource("3_ghf7i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.19778, 0.5, -4)
-grow_value = 1
-
-[node name="CameraBox" parent="." unique_id=490544834 node_paths=PackedStringArray("main_worm") instance=ExtResource("4_yhyfp")]
-main_worm = NodePath("../WormHeadCube")
-
-[node name="WormHeadCube2" parent="." unique_id=207147902 instance=ExtResource("5_pvxha")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.844, 0.5, -3.103)
-speed = 1.0
-grow_value = 5
-
-[node name="DestinationProvider" type="Node" parent="WormHeadCube2" unique_id=1181095767]
-script = ExtResource("6_ghf7i")
-
-[node name="WormHeadCube" parent="." unique_id=889804295 instance=ExtResource("5_pvxha")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-collision_mask = 1
-
-[node name="DestinationProvider" type="Node" parent="WormHeadCube" unique_id=1692592586]
-script = ExtResource("6_voc1u")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1489759622]
+[node name="CSGBox3D" type="CSGBox3D" parent="Walls" unique_id=1489759622]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.716, 0.5, 4.514)
 use_collision = true
 collision_mask = 0
 size = Vector3(4, 1, 4)
 material = ExtResource("6_hdkfl")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1457416668]
+[node name="CSGBox3D4" type="CSGBox3D" parent="Walls" unique_id=502137322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4996, 0.5, -21.897655)
+use_collision = true
+collision_mask = 0
+size = Vector3(8.768555, 1, 7.794922)
+material = ExtResource("6_hdkfl")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Walls" unique_id=1062969992]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.11062, 0.5, 40.16867)
+use_collision = true
+collision_mask = 0
+size = Vector3(10.375, 1, 14.341797)
+material = ExtResource("6_hdkfl")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Walls" unique_id=2025244237]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.498295, 0.5, 43.74655)
+use_collision = true
+collision_mask = 0
+size = Vector3(25.602661, 1, 7.186035)
+material = ExtResource("6_hdkfl")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Walls" unique_id=1457416668]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.291, 0.5, -10.208)
 use_collision = true
 collision_mask = 0
 size = Vector3(26.581543, 1, 7.1466064)
 material = ExtResource("6_hdkfl")
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=54832243]
+[node name="CSGBox3D3" type="CSGBox3D" parent="Walls" unique_id=54832243]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.29019, 0.5, 5.580329)
 use_collision = true
 collision_mask = 0
 size = Vector3(26.581543, 1, 7.1466064)
+material = ExtResource("6_hdkfl")
+
+[node name="LeftBoundWall" type="CSGBox3D" parent="Walls" unique_id=1087698573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.668, 0.5, 0)
+use_collision = true
+size = Vector3(1, 1, 100)
+material = ExtResource("6_hdkfl")
+
+[node name="RightBoundWall" type="CSGBox3D" parent="Walls" unique_id=1285696456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.54689, 0.5, 0)
+use_collision = true
+size = Vector3(1, 1, 100)
+material = ExtResource("6_hdkfl")
+
+[node name="TopBoundWall" type="CSGBox3D" parent="Walls" unique_id=192224939]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.5863762, 0.5, -47.806572)
+use_collision = true
+size = Vector3(1, 1, 100)
+material = ExtResource("6_hdkfl")
+
+[node name="BottomBoundWall" type="CSGBox3D" parent="Walls" unique_id=168814821]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.5863762, 0.5, 47.59275)
+use_collision = true
+size = Vector3(1, 1, 100)
+material = ExtResource("6_hdkfl")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Walls" unique_id=418896277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.761364, 0.5, 8.90707)
+use_collision = true
+radius = 6.535
+height = 1.0
+sides = 20
 material = ExtResource("6_hdkfl")
 
 [node name="GameCanvasLayer" type="CanvasLayer" parent="." unique_id=1085123907]

@@ -11,15 +11,20 @@ extends Node
 func _ready() -> void:
 	if target == null:
 		target = get_parent()
-		
+
+	print("Set authority on head to point ", int(get_parent().get_name()))
+	set_multiplayer_authority( int(get_parent().get_name()) )	
+
 
 func _physics_process(delta: float) -> void:
-	if ( destination_point - target.global_position).length() > 0.1:
-		destination_point.y = target.global_position.y
-		target.look_at(destination_point)
+	if multiplayer.is_server():
+	#	print( "Head to point controlled by ", get_multiplayer_authority() )
+		if ( destination_point - target.global_position).length() > 0.1:
+			destination_point.y = target.global_position.y
+			target.look_at(destination_point)
 
-		var direction = target.transform.basis.z.normalized()
-		direction.y = 0
-		target.velocity = direction * -target.speed
-		target.move_and_slide()
+			var direction = target.transform.basis.z.normalized()
+			direction.y = 0
+			target.velocity = direction * -target.speed
+			target.move_and_slide()
 	#print(motion_source.global_position)

@@ -27,7 +27,7 @@ var is_server: bool = false
 
 
 func _ready() -> void: 
-	get_multiplayer().peer_connected.connect( func(id): client_connected.emit(id) )
+	get_multiplayer().peer_connected.connect( _on_peer_connected )
 	get_multiplayer().peer_disconnected.connect( func(id): client_disconnected.emit(id) )
 
 
@@ -60,6 +60,14 @@ func _setup_client_connection_signals() -> void:
 func _disconnect_client_connection_signals():
 	for connection in get_multiplayer().server_disconnected.get_connections():
 		get_multiplayer().server_disconnected.disconnect(connection.callable)
+		
+
+## When a peer connection is made emit client connected event[br]
+## [color=RED]peer_connected is emitted when ANYONE connects to game[/color][br]
+## This method filters it so client_connected is emitted only when peer is the server[br]
+func _on_peer_connected(peer_id: int) -> void:
+	if peer_id == 1: 
+		client_connected.emit(peer_id)
 		
 		
 func _server_disconnected() -> void:

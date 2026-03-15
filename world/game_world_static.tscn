@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://di4ddhg8pl8jj"]
+
+[ext_resource type="Script" uid="uid://pr5kokmhd6yx" path="res://world/game_world.gd" id="1_o5v0g"]
+[ext_resource type="Texture2D" uid="uid://2pa4k8nc2gnn" path="res://icon.svg" id="2_ttahw"]
+[ext_resource type="PackedScene" uid="uid://cye2uya10358j" path="res://entities/cube/stationary_cube.tscn" id="3_ulttm"]
+[ext_resource type="PackedScene" uid="uid://ibhj2qh57jnt" path="res://world/camera_box.tscn" id="4_epeg7"]
+[ext_resource type="PackedScene" uid="uid://ho8usudkqm3j" path="res://entities/worm/worm_head_cube.tscn" id="5_w3stq"]
+[ext_resource type="Script" uid="uid://cur105d7xcxyy" path="res://scripts/worm/ai_provider.gd" id="6_uuv5s"]
+[ext_resource type="Script" uid="uid://dbkc4b6ll1nuf" path="res://scripts/worm/mouse_tracker.gd" id="7_07qpw"]
+[ext_resource type="Material" uid="uid://biv8u5s64ryh3" path="res://resources/materials/wall_material.tres" id="8_0puby"]
+[ext_resource type="Script" uid="uid://ckbddmpbwjvm3" path="res://world/game_canvas_layer.gd" id="9_0odau"]
+
+[sub_resource type="Environment" id="Environment_s5sgh"]
+background_mode = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.0
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ype84"]
+albedo_texture = ExtResource("2_ttahw")
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fe0n8"]
+material = SubResource("StandardMaterial3D_ype84")
+size = Vector2(100, 100)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ii704"]
+plane = Plane(100, 0, 100, 0)
+
+[node name="GameWorld" type="Node3D" unique_id=956953127]
+script = ExtResource("1_o5v0g")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=795104527]
+environment = SubResource("Environment_s5sgh")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1404449298]
+collision_mask = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=191611730]
+mesh = SubResource("PlaneMesh_fe0n8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1536800603]
+shape = SubResource("WorldBoundaryShape3D_ii704")
+disabled = true
+
+[node name="StationaryCube" parent="." unique_id=1133966118 instance=ExtResource("3_ulttm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -4)
+grow_value = 1
+
+[node name="StationaryCube2" parent="." unique_id=1615031134 instance=ExtResource("3_ulttm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.030768, 0.5, -10.000605)
+grow_value = 1
+
+[node name="StationaryCube3" parent="." unique_id=1316646362 instance=ExtResource("3_ulttm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.19778, 0.5, -4)
+grow_value = 1
+
+[node name="CameraBox" parent="." unique_id=490544834 node_paths=PackedStringArray("main_worm") instance=ExtResource("4_epeg7")]
+main_worm = NodePath("../WormHeadCube")
+
+[node name="WormHeadCube2" parent="." unique_id=207147902 instance=ExtResource("5_w3stq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.844, 0.5, -3.103)
+speed = 1.0
+grow_value = 5
+
+[node name="DestinationProvider" type="Node" parent="WormHeadCube2" unique_id=1181095767]
+script = ExtResource("6_uuv5s")
+
+[node name="WormHeadCube" parent="." unique_id=889804295 instance=ExtResource("5_w3stq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_mask = 1
+
+[node name="DestinationProvider" type="Node" parent="WormHeadCube" unique_id=1692592586]
+script = ExtResource("7_07qpw")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1489759622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.716, 0.5, 4.514)
+use_collision = true
+collision_mask = 0
+size = Vector3(4, 1, 4)
+material = ExtResource("8_0puby")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1457416668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.291, 0.5, -10.208)
+use_collision = true
+collision_mask = 0
+size = Vector3(26.581543, 1, 7.1466064)
+material = ExtResource("8_0puby")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=54832243]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11.29019, 0.5, 5.580329)
+use_collision = true
+collision_mask = 0
+size = Vector3(26.581543, 1, 7.1466064)
+material = ExtResource("8_0puby")
+
+[node name="GameCanvasLayer" type="CanvasLayer" parent="." unique_id=1085123907]
+script = ExtResource("9_0odau")
+
+[node name="KilledLabel" type="Label" parent="GameCanvasLayer" unique_id=115638908]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.94140625, 0.0073547363, 0.0073547363, 1)
+theme_override_font_sizes/font_size = 64
+text = "KILLED"
+
+[node name="LeaderBoard" type="VBoxContainer" parent="GameCanvasLayer" unique_id=1882134626]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameCanvasLayer/LeaderBoard" unique_id=356506832]
+layout_mode = 2

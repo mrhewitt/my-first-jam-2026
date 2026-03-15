@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cisjl4gscbayh"]
+
+[ext_resource type="Texture2D" uid="uid://2pa4k8nc2gnn" path="res://icon.svg" id="1_ipw54"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ype84"]
+albedo_texture = ExtResource("1_ipw54")
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fe0n8"]
+material = SubResource("StandardMaterial3D_ype84")
+size = Vector2(100, 100)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ii704"]
+plane = Plane(100, 0, 100, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=1434417150]
+collision_mask = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=46182662]
+mesh = SubResource("PlaneMesh_fe0n8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=792489654]
+shape = SubResource("WorldBoundaryShape3D_ii704")
+disabled = true

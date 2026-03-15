@@ -6,22 +6,25 @@
 script = ExtResource("1_10ay8")
 metadata/_custom_type_script = "uid://3ltjav6myh8"
 
-[node name="ConnectingLabel" type="Label" parent="." unique_id=1007946284]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=590556458]
+
+[node name="ConnectingLabel" type="Label" parent="CanvasLayer" unique_id=1007946284]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 357.0
-offset_top = 274.0
-offset_right = 847.0
-offset_bottom = 362.0
+offset_left = -219.0
+offset_top = -50.0
+offset_right = 271.0
+offset_bottom = 38.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 64
 text = "CONNECTING...."
 
-[node name="ConnectionLostLabel" type="Label" parent="." unique_id=1669314795]
+[node name="ConnectionLostLabel" type="Label" parent="CanvasLayer" unique_id=1669314795]
 visible = false
 offset_left = 283.0
 offset_top = 273.0
@@ -29,3 +32,34 @@ offset_right = 967.0
 offset_bottom = 361.0
 theme_override_font_sizes/font_size = 64
 text = "CONNECTION LOST ...."
+
+[node name="PlayerNameInput" type="TextEdit" parent="CanvasLayer" unique_id=2086877821]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -133.0
+offset_top = -21.0
+offset_right = 133.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+placeholder_text = "Daddio-DragonSlayer"
+
+[node name="PlayButton" type="Button" parent="CanvasLayer" unique_id=488132602]
+custom_minimum_size = Vector2(196, 48)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.5
+offset_top = 82.0
+offset_right = 46.5
+offset_bottom = 113.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "JOIN GAME"
+
+[connection signal="pressed" from="CanvasLayer/PlayButton" to="." method="_on_play_button_pressed"]
