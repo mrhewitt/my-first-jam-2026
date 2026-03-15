@@ -1,6 +1,16 @@
 [gd_scene format=3 uid="uid://luaecoase576"]
 
-[ext_resource type="Script" uid="uid://bkm1q4sedkk2m" path="res://entities/worm/segment_mover.gd" id="1_x0bea"]
+[sub_resource type="GDScript" id="GDScript_7fuje"]
+script/source = "extends Node
+
+@export var target: WormSegment
+
+
+func _ready() -> void:
+	if target == null:
+		target = get_parent()
+		
+"
 
 [node name="SegmentMover" type="Node" unique_id=573831661]
-script = ExtResource("1_x0bea")
+script = SubResource("GDScript_7fuje")

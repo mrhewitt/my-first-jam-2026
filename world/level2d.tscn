@@ -1,10 +1,34 @@
-[gd_scene format=3 uid="uid://d2ufjf8lvutq6"]
+[gd_scene format=3 uid="uid://cs8dhkck0hn23"]
 
-[ext_resource type="Script" uid="uid://xjoc2v5kwa2h" path="res://world/level2d.gd" id="1_hb3p1"]
 [ext_resource type="Texture2D" uid="uid://yc1574dkflun" path="res://assets/city03_preview-01.png" id="2_xj5p5"]
 
+[sub_resource type="GDScript" id="GDScript_es3ja"]
+script/source = "extends GameScene
+
+@onready var label: Label = $Label
+@onready var button: Button = $Button
+@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var connecting_label: Label = $Label2
+
+func _ready() -> void:
+	label.visible = NetworkManager.is_server
+	if not NetworkManager.is_server:
+		_send_test_message.rpc(\"message to server from new client\")
+	#3button.pressed.connect(_connect_to_server)
+	#NetworkManager.server_started.connect(_server_up)
+	#if  NetworkManager.is_server:
+		
+		#get_multiplayer().peer_connected.connect( _join_success )
+	#button.visible = true
+
+
+@rpc(\"any_peer\")
+func _send_test_message(msg: String) -> void:
+	print( \"%s to peer [%s] from peer [%s]\" % [msg, get_multiplayer().get_unique_id(), get_multiplayer().get_remote_sender_id() ])	
+"
+
 [node name="Level" type="Node2D" unique_id=1771631929]
-script = ExtResource("1_hb3p1")
+script = SubResource("GDScript_es3ja")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1158180083]
 position = Vector2(575.2499, 321.74994)

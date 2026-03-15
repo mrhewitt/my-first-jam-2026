@@ -1,12 +1,24 @@
 [gd_scene format=3 uid="uid://ktnpnycrinwg"]
 
 [ext_resource type="PackedScene" uid="uid://ho8usudkqm3j" path="res://entities/worm/worm_head_cube.tscn" id="1_8od6l"]
-[ext_resource type="Script" uid="uid://b70h8nfoavucs" path="res://entities/worm/worm.gd" id="1_ee8ld"]
 [ext_resource type="Script" uid="uid://brgn5frysesc7" path="res://entities/worm/head_to_point_3d.gd" id="2_ee8ld"]
 [ext_resource type="Script" uid="uid://dbkc4b6ll1nuf" path="res://scripts/worm/mouse_tracker.gd" id="3_kx2q4"]
 
+[sub_resource type="GDScript" id="GDScript_8od6l"]
+script/source = "extends Node3D
+
+@onready var worm_head_cube: WormHeadCube = $WormHeadCube
+
+
+func _physics_process(delta: float) -> void:
+	# follow the worm head by position so camera follows, 
+	# but not roration as we have a fixed to=the-back view
+	#global_position = worm_head_cube.global_position
+	pass
+"
+
 [node name="Worm" type="Node3D" unique_id=1483492821]
-script = ExtResource("1_ee8ld")
+script = SubResource("GDScript_8od6l")
 
 [node name="Camera3D2" type="Camera3D" parent="." unique_id=1021873414]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 5.5, 5)
