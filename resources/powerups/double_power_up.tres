@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="PowerUpResource" format=3 uid="uid://dsjjw04ia500d"]
+[gd_resource type="Resource" format=3 uid="uid://dsjjw04ia500d"]
 
-[ext_resource type="Script" uid="uid://cn5be8gksyn5j" path="res://resources/powerups/power_up_resource.gd" id="1_p2j0w"]
 [ext_resource type="Texture2D" uid="uid://ccoseytp2apq1" path="res://assets/textures/double-size-icon.png" id="1_uxkjf"]
+[ext_resource type="Script" uid="uid://bemvdxn76lfau" path="res://resources/powerups/double_power_up.gd" id="2_uxkjf"]
 
 [resource]
-script = ExtResource("1_p2j0w")
+script = ExtResource("2_uxkjf")
 collect_message = "%s just doubled their size!"
 icon = ExtResource("1_uxkjf")
 metadata/_custom_type_script = "uid://cn5be8gksyn5j"

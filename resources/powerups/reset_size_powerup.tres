@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="PowerUpResource" format=3 uid="uid://bqarckuwoiwj6"]
+[gd_resource type="Resource" format=3 uid="uid://bqarckuwoiwj6"]
 
 [ext_resource type="Texture2D" uid="uid://dfcjohp46825d" path="res://assets/textures/reset-size-icon.png" id="1_x7n43"]
-[ext_resource type="Script" uid="uid://cn5be8gksyn5j" path="res://resources/powerups/power_up_resource.gd" id="1_ysj3r"]
 [ext_resource type="Material" uid="uid://dadgtaseda30x" path="res://resources/materials/bad_power_up_material.tres" id="2_epdya"]
+[ext_resource type="Script" uid="uid://bprm1i7i1q4lu" path="res://resources/powerups/reset_size_powerup.gd" id="3_epdya"]
 
 [resource]
-script = ExtResource("1_ysj3r")
+script = ExtResource("3_epdya")
 collect_message = "%s got cut down to size!"
 icon = ExtResource("1_x7n43")
 material_overlay = ExtResource("2_epdya")

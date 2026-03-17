@@ -10,7 +10,7 @@ const CUBE_MATERIAL = preload("res://resources/materials/cubes/cube_material.tre
 @export var min_size: float = 0.5
 
 ## How much cube grows on each size
-@export var growth_factor: float = 1.2
+@export var growth_factor: float = Settings.GROW_RATIO
 
 ## Box shape matching cube size, assing to your collision shape in compositions
 @export var box_shape: BoxShape3D
@@ -36,17 +36,17 @@ func _ready() -> void:
 ## Given a growth value sets up appropriate cube scale and materials
 ## [param grow_value] How many times has the block grow out, 1 for base, 2 for next size, 3 next  etc
 func set_value_size_and_material( grow_value: int ) -> void:
-	# scale of the object is the base growth factor to the exponent of the
-	# number of times grow out less one, so first size becomes 1, and subsequantly
-	# ^2  ^4  etc
-	var _scale: float = pow(growth_factor, grow_value - 1 )
-	var size: float = _scale * min_size
-	box_shape.size = Vector3(size,size,size) 
-	mesh_instance_3d.scale = Vector3( _scale, _scale, _scale )
-#	mesh_instance_3d.position.y = (mesh_instance_3d.scale.y * 0.5) 
-#	print( mesh_instance_3d.position.y )
-	#cube_material = load( MATERIAL_PATH % pow(2,grow_value) )
+	##var _scale: float = get_scale_factor(grow_value)
+	##var size: float = _scale * min_size
+	##box_shape.size = Vector3(size,size,size) 
+	##mesh_instance_3d.scale = Vector3( _scale, _scale, _scale )
 	var material: StandardMaterial3D = CUBE_MATERIAL.duplicate()
 	material.albedo_color = color_list[grow_value-1]
 	mesh_instance_3d.material_override = material
 	
+	
+## scale of the object is the base growth factor to the exponent of the[br]
+## number of times grow out less one, so first size becomes 1, and subsequantly[br]
+## ^2  ^4  etc
+func get_scale_factor( grow_value: float ) -> float:
+	return pow( growth_factor, grow_value - 1 )

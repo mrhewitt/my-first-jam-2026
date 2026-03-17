@@ -29,10 +29,13 @@ func _ready() -> void:
 	power_up_type = POWERUPS[power_up_index]
 	
 	# setup collision shape so it has same size as the plane mesh
-	collision_shape_3d.shape = BoxShape3D.new()
-	var x: float = mesh_instance_3d.mesh.size.x
-	var z: float = mesh_instance_3d.mesh.size.y
-	collision_shape_3d.shape.size = Vector3(x,2.0,z)
+#	collision_shape_3d.shape = BoxShape3D.new()
+#	var x: float = mesh_instance_3d.mesh.size.x
+	#var z: float = mesh_instance_3d.mesh.size.y
+#	collision_shape_3d.shape.size = Vector3(x,2.0,z)
+	
+	mesh_instance_3d.mesh = PlaneMesh.new()
+	mesh_instance_3d.mesh.size = Vector2(2.0,2.0)
 	
 	# create a material to textre the plane mesh
 	mesh_instance_3d.mesh.material = MaterialHelper.get_texture_material( power_up_type.icon )

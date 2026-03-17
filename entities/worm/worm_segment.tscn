@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://cd3ulcebp3bjw" path="res://entities/cube/basic_cube.tscn" id="1_7ibvi"]
 [ext_resource type="Script" uid="uid://bp0rr4nc6r3h6" path="res://entities/worm/worm_segment.gd" id="1_iq58v"]
-[ext_resource type="Material" uid="uid://b37jpvrtmn3sx" path="res://resources/materials/cubes/cube_4_material.tres" id="3_6thq6"]
 [ext_resource type="PackedScene" uid="uid://2ojb2c4r6mxh" path="res://components/hurt_box.tscn" id="4_b8tih"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_b8tih"]
@@ -23,7 +22,7 @@ albedo_color = Color(0, 0, 0, 1)
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b8tih"]
-size = Vector3(0.1, 0.1, 0.1)
+size = Vector3(0.55, 0.55, 0.55)
 
 [node name="WormSegment" type="CharacterBody3D" unique_id=207147902]
 collision_layer = 8
@@ -34,7 +33,6 @@ script = ExtResource("1_iq58v")
 replication_config = SubResource("SceneReplicationConfig_b8tih")
 
 [node name="BasicCube" parent="." unique_id=985122360 instance=ExtResource("1_7ibvi")]
-cube_material = ExtResource("3_6thq6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1120472356]
 shape = SubResource("BoxShape3D_iq58v")

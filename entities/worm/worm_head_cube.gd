@@ -3,6 +3,8 @@ extends WormSegment
 ## Specialized WormSegment that provides the "player" node for this game
 
 
+const MAX_LOCATION_HISTORY = 240
+
 ## Emitted when this player is eaten
 signal been_killed( worm: WormHeadCube )
 
@@ -20,14 +22,21 @@ signal been_killed( worm: WormHeadCube )
 
 var destination_provider: DestinationProvider
 
+var location_history: Array
 
 func _ready() -> void:
 	super()
-
 	# show name set by player in the label
 	player_name_label.text = player_name
 #	effect_trail_mesh.set_multiplayer_authority( int(name) )
-
+	# init the position array just in case ...
+	var next_position = global_position
+	for i in range(MAX_LOCATION_HISTORY):
+		add_to_location_history( next_position)
+		next_position = transform.basis.z.normalized() * (speed/60)
+	# base target position is always at list end, my position
+	#target_position_index = MAX_LOCATION_HISTORY - 1
+	
 	
 func add_destination_provider( provider: DestinationProvider ) -> void:
 	destination_provider = provider
@@ -43,10 +52,32 @@ func _physics_process(_delta: float) -> void:
 	# if pulling someone clamp their attackment point to our tow point
 #	if pulling_cube:
 #		pulling_cube.next_direction(rotation) #  follow_tow_point(tow_point_marker.global_position) 
-	if pulling_cube:
-		pulling_cube.follow_tow_point(tow_point_marker.global_position)
+	#if pulling_cube:
+	#	pulling_cube.follow_tow_point(tow_point_marker.global_position)
+	add_to_location_history(global_position)
+	
+	var next_cube := pulling_cube
+	while next_cube:
+		next_cube.position = location_history[next_cube.current_position_index].position
+		next_cube.rotation = location_history[next_cube.current_position_index].rotation
+		next_cube = next_cube.pulling_cube
+	
 
-
+func add_to_location_history(position: Vector3) -> void:
+	location_history.push_front( {position = position, rotation = rotation} ) # transform.basis.z.normalized()})
+	if location_history.size() > MAX_LOCATION_HISTORY:
+		location_history.pop_back()
+	
+	
+func get_next_position_index( start_index: int, puller: WormSegment, pullee: WormSegment) -> int:
+	var len: float = 0
+	var target_len: float = (puller.get_block_size()/2.0) + (pullee.get_block_size()/2.0) + Settings.TOW_DISTANCE
+	while len < target_len:
+		len += ( location_history[start_index].position - location_history[start_index+1].position ).length()	
+		start_index += 1
+	return start_index
+	
+	
 func consume_cube( cube: StationaryCube ) -> bool:
 	if cube.grow_value <= grow_value:
 		if !multiplayer.is_server():
