@@ -32,7 +32,7 @@ const SELF_SCENE = preload("uid://bhmi3a6gxf46s")
 
 var upcoming_direction: Vector3
 
-var tow_distance: float = Settings.MIN_BLOCK_SIZE*2
+var tow_distance: float = Settings.MIN_BLOCK_SIZE / 2
 
 var merging: bool = false
 
@@ -49,15 +49,18 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if merging:
+	# only on server, as server has authority, replicates trasnforms
+	# and is responsible for free controlled nodes
+	if merging and multiplayer.is_server():
 		look_at( pulled_by.global_position )
-		global_position = global_position.move_toward( pulled_by.global_position, delta * 5 ) 
+		global_position = global_position.move_toward( pulled_by.global_position, delta * 15 ) 
 		if (pulled_by.global_position - global_position).length() < 0.05:
 			pulled_by.grow_value += 1
 			pulled_by.pulling_cube = pulling_cube
 			if pulling_cube:
 				pulling_cube.pulled_by = pulled_by
 			pulled_by.start_merge_check_clock()
+			merging = false
 			queue_free()
 			
 			
@@ -68,7 +71,9 @@ func set_hurtbox_collision_size() -> void:
 
 
 func start_merge_check_clock() -> void:
-	get_tree().create_timer( Settings.BLOCK_MERGE_DELAY ).timeout.connect( check_start_merge_block )
+	# only the sever will merge blocks
+	if multiplayer.is_server():
+		get_tree().create_timer( Settings.BLOCK_MERGE_DELAY ).timeout.connect( check_start_merge_block )
 
 
 func next_direction( dir: Vector3 ) -> void:
@@ -78,8 +83,10 @@ func next_direction( dir: Vector3 ) -> void:
 	upcoming_direction = dir
 	
 
+## Causes this segment to track its town point to create illusion it is being pulled
+## [i]Only runs on server as server has authority on transforms, final transform is replicated[/i] 
 func follow_tow_point( tow_point: Vector3 ) -> void:
-	if not merging:
+	if not merging and multiplayer.is_server():
 		# rotate so we are facing the towpoint square on
 		look_at(tow_point)
 		# and use transform rotation vector to move back to leave a towing distance
@@ -106,7 +113,7 @@ func insert_cube_of_value( value: int ) -> void:
 		# insert new segment into pulling chain 
 		if pulling_cube:
 			pulling_cube.pulled_by = segment
-		segment.pulling_cube = pulling_cube
+		segment.pulling_cube = pulling_cube if is_instance_valid(pulling_cube) else null
 		segment.pulled_by = self
 		pulling_cube = segment
 	elif pulling_cube:
@@ -143,7 +150,9 @@ func check_start_merge_block() -> void:
 	# block of this value in the chain
 	if pulled_by and pulled_by.grow_value == grow_value and ( pulling_cube == null or pulling_cube.grow_value < grow_value):
 		merging = true
-
+		# disable collision shape when we merge as we have been processed and cannot collide with our own head
+		collision_shape_3d.set_deferred("disabled", true)
+		
 
 func create_worm_segment( value: int ) -> WormSegment:
 	var segment := WormSegment.instance( self if self.owned_by == null else self.owned_by, value )

@@ -1,4 +1,10 @@
-extends GameScene
+class_name MultiplayerHost
+extends Control
+## Menu style screen for bootstrapping the game
+##
+## This is the menu, but does not transition to a GamePlayState as client level
+## must be in same path as server, so for this first attempt at client/server all play
+## is hosted in MapHost and game state remains in menu state 
 
 const GAME_WORLD = preload("uid://dwiaescbf4ac6")
 
@@ -11,17 +17,16 @@ const GAME_WORLD = preload("uid://dwiaescbf4ac6")
 
 #@export var player_name: String = "Daddio-Dragonslayer" 
 
-@onready var connecting_label: Label = $CanvasLayer/ConnectingLabel
-@onready var connection_lost_label: Label = $CanvasLayer/ConnectionLostLabel
-@onready var play_button: Button = $CanvasLayer/PlayButton
-@onready var player_name_input: TextEdit = $CanvasLayer/PlayerNameInput
+@onready var connecting_label: Label = $ConnectingLabel
+@onready var connection_lost_label: Label = $ConnectionLostLabel
+@onready var play_button: Button = $PlayButton
+@onready var player_name_input: TextEdit = $PlayerNameInput
 
 var level_instance: GameWorld
 
 
 func _ready() -> void:
-	player_name_input.text = RandomNameGenerator.pick_one()
-
+	player_name_input.placeholder_text = RandomNameGenerator.pick_one()
 
 
 func connect_server() -> void:
@@ -39,6 +44,13 @@ func enter_game() -> void:
 	level_instance.visible = true
 	
 	
+func exit_game() -> void:
+	connecting_label.visible = false
+	play_button.visible = true
+	player_name_input.visible = true
+	visible = true
+	
+	
 func get_player_name() -> String:
 	var _name: String = player_name_input.text 
 	return player_name_input.placeholder_text if _name == "" else _name 
@@ -54,6 +66,8 @@ func _on_connected( remote_peer_id: int) -> void:
 	
 	# boot up a level on our client side
 	level_instance = GAME_WORLD.instantiate()
+	# we want to know when play dies or exits game
+	level_instance.goto_return_state.connect( _on_leave_game )
 	# remain hidden until player node is fully replicated to us
 	level_instance.visible = false
 	Bootstrap.map_host.add_child(level_instance)
@@ -81,6 +95,7 @@ func _on_player_spawned(node: Node) -> void:
 func _on_disconnected() -> void:
 	print("Connection lost ")
 	connection_lost_label.visible = true
+	visible = true
 	level_instance.queue_free()
 	
 	#print( "%s to peer [%s] from peer [%s]" % [msg, get_multiplayer().get_unique_id(), get_multiplayer().get_remote_sender_id() ])	
@@ -88,3 +103,14 @@ func _on_disconnected() -> void:
 
 func _on_play_button_pressed() -> void:
 	connect_server()
+	
+	
+func _on_leave_game() -> void:
+	# Set the multiplayer peer to null to close the connection.
+	if multiplayer.multiplayer_peer != null:
+		multiplayer.multiplayer_peer.close() 
+		multiplayer.multiplayer_peer = null
+		print("Disconnected from the server.")
+
+	level_instance.queue_free()
+	exit_game()

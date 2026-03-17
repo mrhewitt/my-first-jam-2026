@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dadgtaseda30x"]
+
+[ext_resource type="Shader" uid="uid://daw6oa1ocxwry" path="res://resources/shader/bad_powerup.gdshader" id="1_vgc8m"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_epdya"]
+noise_type = 2
+frequency = 0.0537
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_hrb5f"]
+noise = SubResource("FastNoiseLite_epdya")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sg6qx"]
+frequency = 0.0049
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_30ybs"]
+noise = SubResource("FastNoiseLite_sg6qx")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_vgc8m")
+shader_parameter/color = Color(0.9, 0, 0, 1)
+shader_parameter/noise1 = SubResource("NoiseTexture2D_hrb5f")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_30ybs")

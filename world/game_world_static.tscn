@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://cur105d7xcxyy" path="res://scripts/worm/ai_provider.gd" id="6_uuv5s"]
 [ext_resource type="Script" uid="uid://dbkc4b6ll1nuf" path="res://scripts/worm/mouse_tracker.gd" id="7_07qpw"]
 [ext_resource type="Material" uid="uid://biv8u5s64ryh3" path="res://resources/materials/wall_material.tres" id="8_0puby"]
-[ext_resource type="Script" uid="uid://ckbddmpbwjvm3" path="res://world/game_canvas_layer.gd" id="9_0odau"]
+[ext_resource type="Script" uid="uid://ckbddmpbwjvm3" path="res://world/ui/game_canvas_layer.gd" id="9_0odau"]
 
 [sub_resource type="Environment" id="Environment_s5sgh"]
 background_mode = 2

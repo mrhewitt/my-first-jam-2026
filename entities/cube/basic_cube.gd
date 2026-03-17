@@ -2,7 +2,9 @@ class_name BasicCude
 extends Node3D
 ##
 
-const MATERIAL_PATH = "res://resources/materials/cubes/cube_%d_material.tres"
+const CUBE_MATERIAL = preload("res://resources/materials/cubes/cube_material.tres")
+
+@export var color_list : Array[Color]
 
 ## Start size of the smallest cube, length of one side
 @export var min_size: float = 0.5
@@ -17,17 +19,18 @@ const MATERIAL_PATH = "res://resources/materials/cubes/cube_%d_material.tres"
 @export var cube_material: BaseMaterial3D:
 	set( material ):
 		if material and mesh_instance_3d and mesh_instance_3d.mesh:
-			mesh_instance_3d.mesh.material = material
+			#mesh_instance_3d.mesh.material = material
+			mesh_instance_3d.material_override = material
 
-## Mesh to use for the cubes appearance
-@export var shape_mesh: PrimitiveMesh 
+## Mesh to use for the cubes appearance##
+#@export var shape_mesh: PrimitiveMesh 
 
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
 
 
 func _ready() -> void:
 	box_shape = BoxShape3D.new()
-	mesh_instance_3d.mesh = shape_mesh.duplicate()
+	#mesh_instance_3d.mesh = shape_mesh.duplicate()
 
 
 ## Given a growth value sets up appropriate cube scale and materials
@@ -42,4 +45,8 @@ func set_value_size_and_material( grow_value: int ) -> void:
 	mesh_instance_3d.scale = Vector3( _scale, _scale, _scale )
 #	mesh_instance_3d.position.y = (mesh_instance_3d.scale.y * 0.5) 
 #	print( mesh_instance_3d.position.y )
-	cube_material = load( MATERIAL_PATH % pow(2,grow_value) )
+	#cube_material = load( MATERIAL_PATH % pow(2,grow_value) )
+	var material: StandardMaterial3D = CUBE_MATERIAL.duplicate()
+	material.albedo_color = color_list[grow_value-1]
+	mesh_instance_3d.material_override = material
+	

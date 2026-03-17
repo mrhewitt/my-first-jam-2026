@@ -8,7 +8,7 @@ const SELF_SCENE = preload("res://entities/cube/stationary_cube.tscn")
 
 ## Number of times its grown out, 1 == 2, 2 == 4, 3 == 8 etc
 ## [i]Numer value of the block is pow(2,grow_value)[/i]
-@export var grow_value: int = 3
+@export var grow_value: int = 1
 
 @onready var basic_cube: BasicCude = $BasicCube
 @onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
@@ -30,9 +30,9 @@ func _on_pickup_area_entered(body: Node3D) -> void:
 			queue_free()
 			
 			
-static func instance( transform:Transform3D = Transform3D.IDENTITY, grow_value: int = 1 ) -> StationaryCube:
-	var instance: StationaryCube = SELF_SCENE.instantiate()
-	instance.name = NetworkManager.get_unique_name( "StationaryCube_" + str(grow_value) )
-	instance.grow_value = grow_value
-	instance.transform = transform
-	return instance
+static func instance( _transform:Transform3D = Transform3D.IDENTITY, _grow_value: int = 1 ) -> StationaryCube:
+	var _instance: StationaryCube = SELF_SCENE.instantiate()
+	_instance.name = NetworkManager.get_unique_name( "StationaryCube_" + str(_grow_value) )
+	_instance.grow_value = _grow_value
+	_instance.transform = _transform
+	return _instance

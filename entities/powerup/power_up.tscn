@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://cs31egmj5atle"]
+
+[ext_resource type="Script" uid="uid://dxim75gg2l56e" path="res://entities/powerup/power_up.gd" id="1_02axo"]
+[ext_resource type="Texture2D" uid="uid://dmnii0m1nqcja" path="res://assets/textures/2-bk.png" id="1_cndhc"]
+[ext_resource type="Shader" uid="uid://bpid2v2n0wukb" path="res://resources/shader/power_up.gdshader" id="2_sfw4f"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_sfw4f"]
+properties/0/path = NodePath(".:transform")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:power_up_index")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sfw4f"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2ilia"]
+noise = SubResource("FastNoiseLite_sfw4f")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ilia"]
+render_priority = 0
+shader = ExtResource("2_sfw4f")
+shader_parameter/color = Color(1, 0.515625, 0, 1)
+shader_parameter/noise1 = SubResource("NoiseTexture2D_2ilia")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qpboo"]
+material = SubResource("ShaderMaterial_2ilia")
+top_radius = 1.4
+bottom_radius = 1.25
+height = 1.0
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_02axo"]
+albedo_texture = ExtResource("1_cndhc")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sfw4f"]
+material = SubResource("StandardMaterial3D_02axo")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sfw4f"]
+size = Vector3(2, 2, 2)
+
+[node name="PowerUpScene" type="Node3D" unique_id=1801188748 groups=["powerups"]]
+script = ExtResource("1_02axo")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=793863140]
+replication_config = SubResource("SceneReplicationConfig_sfw4f")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=311282516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+mesh = SubResource("CylinderMesh_qpboo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=344718033]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_sfw4f")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=360514514]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1157224881]
+shape = SubResource("BoxShape3D_sfw4f")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

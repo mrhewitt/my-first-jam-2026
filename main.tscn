@@ -5,16 +5,13 @@
 [ext_resource type="Script" uid="uid://cv3fdd1kuyduj" path="res://addons/godot-jam-template/game/game-state/game_state_splash_screens.gd" id="3_vosa4"]
 [ext_resource type="Script" uid="uid://b4y45h1uj77qq" path="res://addons/godot-jam-template/components/splash_screen.gd" id="4_pf3sp"]
 [ext_resource type="Resource" uid="uid://csfd5p7llfn7i" path="res://addons/godot-jam-template/resources/logo_splash_music.tres" id="5_imcmr"]
-[ext_resource type="Shader" uid="uid://b7i1epahp7e8h" path="res://addons/godot-shader-library/shaders/diamond_transition.gdshader" id="6_pnxv1"]
+[ext_resource type="Shader" uid="uid://b7i1epahp7e8h" path="res://addons/godot-shader-library/shaders/canvas/diamond_transition.gdshader" id="6_pnxv1"]
 [ext_resource type="Texture2D" uid="uid://ddgngx48l68o" path="res://addons/godot-jam-template/assets/logo-splash.png" id="7_ks0f0"]
-[ext_resource type="Shader" uid="uid://bagkb5s2dsiy5" path="res://addons/godot-shader-library/shaders/pixel_dissolve_wave.gdshader" id="8_sjbbn"]
+[ext_resource type="Shader" uid="uid://bagkb5s2dsiy5" path="res://addons/godot-shader-library/shaders/canvas/pixel_dissolve_wave.gdshader" id="8_sjbbn"]
 [ext_resource type="Texture2D" uid="uid://dmnvo7ur1mpl1" path="res://addons/godot-jam-template/assets/logo-games.png" id="9_qayxg"]
 [ext_resource type="Script" uid="uid://cb7rba50kla14" path="res://addons/godot-jam-template/game/game-state/game_state_menu.gd" id="10_dlyr2"]
-[ext_resource type="Script" uid="uid://c2inws6cdbcxx" path="res://addons/godot-jam-template/ui/buttons/play_button.gd" id="11_qniba"]
-[ext_resource type="Script" uid="uid://d1gl57aphnkkk" path="res://addons/godot-jam-template/ui/buttons/options_button.gd" id="12_tkky5"]
-[ext_resource type="Script" uid="uid://xx22qyuapr8q" path="res://addons/godot-jam-template/ui/buttons/quit_button.gd" id="13_4qdtr"]
+[ext_resource type="PackedScene" uid="uid://dkfiy1cunmvyk" path="res://world/multiplayer_host.tscn" id="11_ycdy4"]
 [ext_resource type="Script" uid="uid://dge31ko47i0vl" path="res://addons/godot-jam-template/game/game-state/game_state_play.gd" id="14_hk5wt"]
-[ext_resource type="PackedScene" uid="uid://d2ufjf8lvutq6" path="res://world/level2d.tscn" id="15_vivmo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xwudg"]
 shader = ExtResource("6_pnxv1")
@@ -163,86 +160,13 @@ expand_mode = 1
 libraries/ = SubResource("AnimationLibrary_fy1gm")
 autoplay = &"eff"
 
-[node name="TitleScreen" type="Control" parent="GameStateMachine/GameStateSplashScreens" unique_id=1038085581]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("4_pf3sp")
-display_time = 3.0
-metadata/_custom_type_script = "uid://b4y45h1uj77qq"
-
-[node name="TextureRect" type="TextureRect" parent="GameStateMachine/GameStateSplashScreens/TitleScreen" unique_id=1741999101]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="GameStateMenu" type="Node" parent="GameStateMachine" unique_id=641836267]
 script = ExtResource("10_dlyr2")
 metadata/_custom_type_script = "uid://cb7rba50kla14"
 
-[node name="Theme" type="Control" parent="GameStateMachine/GameStateMenu" unique_id=1444219469]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="TextureRect" type="TextureRect" parent="GameStateMachine/GameStateMenu/Theme" unique_id=843711932]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-expand_mode = 1
-
-[node name="MenuVBoxContainer" type="VBoxContainer" parent="GameStateMachine/GameStateMenu/Theme" unique_id=574117606]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 492.0
-offset_top = 228.0
-offset_right = 620.0
-offset_bottom = 380.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PlayButton" type="Button" parent="GameStateMachine/GameStateMenu/Theme/MenuVBoxContainer" unique_id=145714395 node_paths=PackedStringArray("play_state")]
-custom_minimum_size = Vector2(128, 48)
-layout_mode = 2
-text = "PLAY SOLO"
-script = ExtResource("11_qniba")
-play_state = NodePath("../../../../GameStatePlay")
-
-[node name="JoinButton" type="Button" parent="GameStateMachine/GameStateMenu/Theme/MenuVBoxContainer" unique_id=1152423656 node_paths=PackedStringArray("play_state")]
-custom_minimum_size = Vector2(128, 48)
-layout_mode = 2
-text = "JOIN SERVER"
-script = ExtResource("11_qniba")
-play_state = NodePath("../../../../GameStatePlay")
-
-[node name="OptionsButton" type="Button" parent="GameStateMachine/GameStateMenu/Theme/MenuVBoxContainer" unique_id=1316257115]
-custom_minimum_size = Vector2(128, 48)
-layout_mode = 2
-text = "SETTINGS"
-script = ExtResource("12_tkky5")
-
-[node name="QuitButton" type="Button" parent="GameStateMachine/GameStateMenu/Theme/MenuVBoxContainer" unique_id=218339456]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-text = "QUIT"
-script = ExtResource("13_4qdtr")
+[node name="MultiplayerHost" parent="GameStateMachine/GameStateMenu" unique_id=1895495425 instance=ExtResource("11_ycdy4")]
 
 [node name="GameStatePlay" type="Node" parent="GameStateMachine" unique_id=753930524 node_paths=PackedStringArray("return_state")]
 script = ExtResource("14_hk5wt")
 return_state = NodePath("../GameStateMenu")
-game_scene = ExtResource("15_vivmo")
 metadata/_custom_type_script = "uid://dge31ko47i0vl"

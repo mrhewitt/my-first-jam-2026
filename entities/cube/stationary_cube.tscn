@@ -11,13 +11,16 @@ properties/1/path = NodePath(".:grow_value")
 properties/1/spawn = true
 properties/1/replication_mode = 0
 
-[node name="StationaryCube" type="RigidBody3D" unique_id=1615031134]
+[node name="StationaryCube" type="RigidBody3D" unique_id=1615031134 groups=["stationary_cubes"]]
 collision_layer = 2
 collision_mask = 5
 axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
+mass = 5.0
 gravity_scale = 0.0
+linear_damp_mode = 1
+linear_damp = 2.899
 script = ExtResource("1_rkbxc")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1831343397]

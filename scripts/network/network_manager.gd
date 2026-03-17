@@ -23,9 +23,6 @@ signal client_disconnected(peer_id: int)
 signal server_started
 
 
-var is_server: bool = false
-
-
 func _ready() -> void: 
 	get_multiplayer().peer_connected.connect( _on_peer_connected )
 	get_multiplayer().peer_disconnected.connect( func(id): client_disconnected.emit(id) )
@@ -35,13 +32,11 @@ func create_server() -> void:
 	var network_peer: WebSocketMultiplayerPeer = WebSocketMultiplayerPeer.new()
 	network_peer.create_server(SERVER_PORT)
 	get_multiplayer().multiplayer_peer = network_peer
-	is_server = true
 	print("Server created")
 	server_started.emit()
 	
 	
 func connect_to_server( ) -> void:
-	is_server = false
 	_setup_client_connection_signals()
 	
 	var network_peer: WebSocketMultiplayerPeer = WebSocketMultiplayerPeer.new()

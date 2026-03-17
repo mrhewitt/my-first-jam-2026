@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://c1ssdlyrpmbi6"]
+
+[ext_resource type="FontFile" uid="uid://cvc8tyu2mbexj" path="res://assets/font/ARCADE_R.TTF" id="1_ntlge"]
+
+[resource]
+default_font = ExtResource("1_ntlge")

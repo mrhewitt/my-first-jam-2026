@@ -17,11 +17,17 @@ static var world_camera: Camera3D = null
 func _ready() -> void:
 	# Make a ref to our camera so other nodes in the world can essily access camera setup
 	world_camera = camera_3d_2
-
+	var angle: float = (PI/180) * 60
+	camera_3d_2.position = Vector3(0,sin(angle),cos(angle)) * 15
+	camera_3d_2.look_at(Vector3.ZERO)
+	
 
 func _physics_process(_delta: float) -> void:
-	global_position = worm_to_follow.global_position 
-	
+	# only move camera is follow target is valiid after death which game is still up
+	# this will not be the case
+	if is_instance_valid(worm_to_follow):
+		global_position = worm_to_follow.global_position 
+
 	
 ## create a CameraBox instance
 ## [param follow] Player WormHeadCube to attach the camera to

@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://6hbgb16pva5w"]
+
+[ext_resource type="Shader" uid="uid://286c3yvl4138" path="res://resources/shader/double_speed_trail.gdshader" id="1_25sql"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_25sql")

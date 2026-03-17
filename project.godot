@@ -26,6 +26,11 @@ SoundPlayer="*uid://c2reivyb1ic55"
 MusicPlayer="*uid://b6w8q82sw6tuw"
 Game="*uid://bbpcfebamlxy5"
 NetworkManager="*uid://6x2n37o1p3fu"
+RemoteCall="*uid://vq2tlqqjmhyl"
+
+[editor]
+
+movie_writer/movie_file="C:/GameDev/Projects/Jams/MyFirstJam/worm-battle/build/media/jam-mid-way.avi"
 
 [editor_plugins]
 
@@ -35,6 +40,15 @@ enabled=PackedStringArray("res://addons/godot-jam-template/plugin.cfg", "res://a
 
 multiplayer_client_host=""
 multiplayer_client_host_scene=""
+
+[global_group]
+
+worm_heads="All worms, including AI"
+stationary_cubes="All static blocks in level that can be collected"
+players="All non-AI players"
+ai="All AI players"
+powerups="All powerups in the map"
+ai_spawn="AI spawn points"
 
 [input]
 
@@ -85,6 +99,7 @@ move_right={
 3d_physics/layer_2="Stationary Cubes"
 3d_physics/layer_3="Player Head"
 3d_physics/layer_4="Player Segments"
+3d_physics/layer_5="Powerup"
 
 [physics]
 

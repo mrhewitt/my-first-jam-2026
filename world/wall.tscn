@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://srnhrd4dsx1a"]
+
+[ext_resource type="ArrayMesh" uid="uid://c6eps2hj0jc81" path="res://resources/meshes/wall.tres" id="1_woip6"]
+[ext_resource type="Material" uid="uid://biv8u5s64ryh3" path="res://resources/materials/wall_material.tres" id="2_okmqd"]
+
+[node name="WallStaticBody" type="StaticBody3D" unique_id=1485212664]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=768047834]
+mesh = ExtResource("1_woip6")
+surface_material_override/0 = ExtResource("2_okmqd")

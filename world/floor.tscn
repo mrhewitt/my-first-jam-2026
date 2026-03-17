@@ -1,13 +1,17 @@
 [gd_scene format=3 uid="uid://cisjl4gscbayh"]
 
-[ext_resource type="Texture2D" uid="uid://2pa4k8nc2gnn" path="res://icon.svg" id="1_ipw54"]
+[ext_resource type="Shader" uid="uid://dqksxhqgnc3hc" path="res://resources/shader/floor.gdshader" id="1_ipw54"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ype84"]
-albedo_texture = ExtResource("1_ipw54")
-uv1_scale = Vector3(10, 10, 10)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2y5fj"]
+render_priority = 0
+shader = ExtResource("1_ipw54")
+shader_parameter/floor_color = Color(0.12156863, 0.21176471, 0.38039216, 1)
+shader_parameter/dot_color = Color(0.16078432, 0.34509805, 0.56078434, 1)
+shader_parameter/density = 50.0
+shader_parameter/circle_size = 0.0150000007125
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fe0n8"]
-material = SubResource("StandardMaterial3D_ype84")
+material = SubResource("ShaderMaterial_2y5fj")
 size = Vector2(100, 100)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ii704"]

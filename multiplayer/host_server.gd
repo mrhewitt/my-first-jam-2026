@@ -40,9 +40,12 @@ func _new_player_joined(peer_id) -> void:
 ## Event handler called when player leaves the server
 func _player_left( peer_id ) -> void:
 	# remove player instance from the world, this will spawn to all clients and remove him
-	for child in server_level.get_children():
-		if child.name == str(peer_id):
-			child.queue_free()
+	var player: WormHeadCube = server_level.get_node_or_null( str(peer_id) )
+	if player != null:
+		# leave my tail for others to collect
+		player.drop_tail()
+		# free head node
+		player.queue_free()
 
 
 ## Event handler called when the server is started

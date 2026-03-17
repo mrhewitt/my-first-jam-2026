@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dliqdvvdn675y"]
+
+[ext_resource type="Shader" uid="uid://uxpuscbegttr" path="res://resources/shader/skyscraper_lights_material.gdshader" id="1_cr82h"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_cr82h")
+shader_parameter/size = 128.0
+shader_parameter/thickness = 0.0230000010925
+shader_parameter/ratio = Vector2(0.25, 0.25)
+shader_parameter/base_color = Color(0, 0, 0, 1)
+shader_parameter/window_color = Color(0.008651733, 0.55017364, 0.73828125, 1)
+shader_parameter/window_intensity = 1.0
+shader_parameter/window_freq = 0.18
+shader_parameter/scale = Vector2(1, 1)
