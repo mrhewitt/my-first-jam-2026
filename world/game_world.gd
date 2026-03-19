@@ -68,30 +68,13 @@ func set_random_position(instance: Node3D, height: float = 0.5, include_rotation
 		instance.rotation = Vector3(0, randf() * 2 * PI, 0)	   # turn randonly to look more interesting
 	
 	var attempts: int = 0
-	while attempts < 10 and not is_in_clear_space(instance):
+	while attempts < 10 and not GameWorld.is_in_clear_space(instance):
 		attempts += 1
 		instance.global_position = get_random_position(height)
 		if include_rotation:
 			instance.rotation = Vector3(0, randf() * 2 * PI, 0)	
 		
-	
-func is_in_clear_space( node: Node3D ) -> bool:
-	var space_state = get_world_3d().direct_space_state
 
-	var params = PhysicsShapeQueryParameters3D.new()
-	# Set the posi tion of the query (e.g., at this node's position)
-	params.transform = node.global_transform
-	params.collide_with_areas = true
-	params.shape = node.find_child("CollisionShape3D",true).shape
-	#params.exclude = [RID(node)]  # Exclude self
-	
-	# any collision means this spot is no good, so also stop when it finds one collision
-	var i = space_state.intersect_shape(params, 1)
-	if i.size() > 0:
-		print( node.name ," is in a wall")
-		return false
-	
-	return true
 		
 	
 func get_random_position( height: float = 0.5) -> Vector3:
@@ -144,8 +127,7 @@ func create_ai_player() -> void:
 	# select the next AI spawn point in the list, we do this as a cheat to 
 	# minimize chance of AI agents spawning on top of one another 
 	last_ai_spawn_point = (last_ai_spawn_point+1) % ai_spawn_points.get_child_count()
-	instance.global_position = ai_spawn_points.get_child(last_ai_spawn_point).global_position
-		
+	
 	# as this is a player node we need him to respond to input so add
 	# and destination provider now that accepts inout
 	instance.add_destination_provider( AiProvider.new() )
@@ -158,6 +140,9 @@ func create_ai_player() -> void:
 	)
 	
 	add_child(instance)
+	instance.global_position = ai_spawn_points.get_child(last_ai_spawn_point).global_position
+	#instance.global_position.y = 0.66
+
 	RemoteCall.show_event("%s joined the game" % instance.player_name)
 	
 
@@ -176,7 +161,7 @@ func _on_powerup_spawn_timer_timeout() -> void:
 		 
 
 ## Fired on client when player has been killed
-func _on_been_killed( player: WormHeadCube ) -> void:
+func _on_been_killed( _player: WormHeadCube ) -> void:
 	game_over_canvas_layer.prepare_game_over()
 	game_canvas_layer.killed_screen.visible = true
 	get_tree().create_timer(4.0).timeout.connect( _on_show_game_over )
@@ -191,3 +176,23 @@ func _on_show_game_over() -> void:
 ## when continue button is pressed tell game state to move on
 func _on_continue_button_pressed() -> void:
 	goto_return_state.emit()
+	
+	
+## Given a 3D node, checks this node at its current global transform
+## will be in open space, i.e. not in a wall etc
+static	func is_in_clear_space( node: Node3D ) -> bool:
+	var space_state = node.get_world_3d().direct_space_state
+
+	var params = PhysicsShapeQueryParameters3D.new()
+	# Set the posi tion of the query (e.g., at this node's position)
+	params.transform = node.global_transform
+	params.collide_with_areas = true
+	params.shape = node.find_child("CollisionShape3D",true).shape
+	
+	# any collision means this spot is no good, so also stop when it finds one collision
+	var i = space_state.intersect_shape(params, 1)
+	if i.size() > 0:
+		print( node.name ," is in a wall")
+		return false
+	
+	return true

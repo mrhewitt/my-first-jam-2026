@@ -1,18 +1,21 @@
 class_name LeaderBoard
-extends VBoxContainer
+extends PanelContainer
 ##
 	
 ## If true then leaderboard will update in real time , otherwise it will
 ## need to be
 @export var is_active: bool = true
-	
+
+@onready var leader_board: VBoxContainer = $MarginContainer/LeaderBoard
+
+
 func _process(_delta: float) -> void:
 	if is_active:
 		show_leaderboard()
 	
 	
 func clear_leaderboard() -> void:
-	for child in get_children():
+	for child in leader_board.get_children():
 		child.clear_row()
 		
 	
@@ -21,7 +24,7 @@ func show_leaderboard() -> int:
 	
 	var players = get_sorted_player_list()
 	for i in range(players.size()):
-		get_child(i).set_player_data(players[i])
+		leader_board.get_child(i).set_player_data(players[i])
 	
 	# return position of player in this client
 	for player in players:

@@ -14,7 +14,21 @@ const HEIGHT_OFF_GROUND = MIN_BLOCK_SIZE / 2.0
 const BLOCK_MERGE_DELAY = 1.0
 
 ## Distance between blocks when in a worm segment
-const TOW_DISTANCE = 0.1
+const TOW_DISTANCE = 0.2
+
+## Base speed of the worm
+const BASE_WORM_SPEED = 3.0
+
+## Boost rate, how much speed is boosted if mouse it down
+const WORM_SPEED_BOOST_RATE = 1.4
+
+## How long player can hold boost speed for
+const BOOST_SPEED_TIME = 3.0
+
+## How long till boost speed begins to replenish
+const BOOST_SPEED_COOLDOWN = 0.5
+
+
 
 const CUBE_SPAWN_PROB = [
 		0.7,		# 70% for first level,2 block

@@ -3,21 +3,27 @@
 [ext_resource type="Script" uid="uid://bono77nuwtgsc" path="res://world/leaderboard/score_row_h_box_container.gd" id="1_xsm57"]
 
 [node name="ScoreRowHBoxContainer" type="HBoxContainer" unique_id=2063870308]
+custom_minimum_size = Vector2(224, 0)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
 size_flags_horizontal = 3
 script = ExtResource("1_xsm57")
 
 [node name="PlayerPositionLabel" type="Label" parent="." unique_id=1863344157]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "25."
 
 [node name="PlayerNameLabel" type="Label" parent="." unique_id=1244827605]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "Player Name"
+theme_override_font_sizes/font_size = 16
+text = "Daddio-DragonSlayer"
 
 [node name="PlayerScoreLabel" type="Label" parent="." unique_id=860197288]
 layout_mode = 2
-size_flags_horizontal = 8
-theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
 text = "16	"
+horizontal_alignment = 2

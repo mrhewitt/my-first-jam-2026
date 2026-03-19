@@ -7,8 +7,8 @@ render_priority = 0
 shader = ExtResource("1_ipw54")
 shader_parameter/floor_color = Color(0.12156863, 0.21176471, 0.38039216, 1)
 shader_parameter/dot_color = Color(0.16078432, 0.34509805, 0.56078434, 1)
-shader_parameter/density = 50.0
-shader_parameter/circle_size = 0.0150000007125
+shader_parameter/density = 75.0
+shader_parameter/circle_size = 0.0070000003325
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fe0n8"]
 material = SubResource("ShaderMaterial_2y5fj")

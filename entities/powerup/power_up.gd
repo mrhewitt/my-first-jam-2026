@@ -21,9 +21,12 @@ const POWERUPS = [
  
 @onready var collision_shape_3d: CollisionShape3D = $Area3D/CollisionShape3D
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
+@onready var area_3d: Area3D = $Area3D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var active: bool = true
 var power_up_type: PowerUpResource
+
 
 func _ready() -> void:
 	power_up_type = POWERUPS[power_up_index]
@@ -45,10 +48,13 @@ func _ready() -> void:
 	
 	
 func _on_area_3d_body_entered(body: Node3D) -> void:
-	if active and multiplayer.is_server() and body is WormHeadCube:
-		if power_up_type.do_powerup(body):
-			active = false
-			queue_free()
+	if active and body is WormHeadCube and multiplayer.is_server() and power_up_type.can_apply(body):
+		power_up_type.do_powerup(body)			
+		area_3d.queue_free()
+		active = false
+		animation_player.play("remove")
+		await animation_player.animation_finished
+		queue_free()
 		
 
 static func instance( power_up: PowerUpResource ) -> PowerUpScene:

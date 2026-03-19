@@ -15,19 +15,22 @@ extends Resource
 ## Optional trail effect material, if set will show while powerup active
 @export var trail_material: Material
 
-## Apply the powerup to the worm[br]
+
+## Retusn true if this powerup can be applied to the given worm[br]
 ## Returns false if effect was not applicable and powerup must remain on scene
-func apply_effects( worm_head: WormHeadCube ) -> bool:
+func can_apply( _worm_head: WormHeadCube ) -> bool:
 	return false
+	
+	
+## Apply the powerup to the worm
+func apply_effects( _worm_head: WormHeadCube ) -> void:
+	pass
 
 
 ## Call this when you want to powerup to be collected[br]
 ## Calls apply_effects internally and also takes care of displaying a notification
-func do_powerup( worm_head: WormHeadCube ) -> bool:
-	if apply_effects(worm_head):
-		if trail_material:
-			worm_head.set_trail_material.rpc( trail_material.resource_path )
-		RemoteCall.show_event.rpc( collect_message % worm_head.player_name )
-		return true
-	else:
-		return false
+func do_powerup( worm_head: WormHeadCube ):
+	apply_effects(worm_head)
+	if trail_material:
+		worm_head.set_trail_material.rpc( trail_material.resource_path )
+	RemoteCall.show_event.rpc( collect_message % worm_head.player_name )

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ccfmywfa4ouja"]
+
+[ext_resource type="Texture2D" uid="uid://u1jtn1dy1ciu" path="res://assets/boost-progress-under.png" id="1_4o6e4"]
+[ext_resource type="Texture2D" uid="uid://dk2wfinrpucd" path="res://assets/boost-progress-progress.png" id="2_qpg4f"]
+[ext_resource type="Script" uid="uid://be8jd6hk2285g" path="res://entities/worm/boost_speed_progress.gd" id="3_uh2c0"]
+
+[node name="BoostSpeedProgress" type="TextureProgressBar" unique_id=1917302470]
+offset_right = 64.0
+offset_bottom = 48.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+value = 10.0
+fill_mode = 5
+radial_center_offset = Vector2(8, 0)
+texture_under = ExtResource("1_4o6e4")
+texture_progress = ExtResource("2_qpg4f")
+script = ExtResource("3_uh2c0")

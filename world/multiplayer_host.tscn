@@ -1,7 +1,35 @@
 [gd_scene format=3 uid="uid://dkfiy1cunmvyk"]
 
 [ext_resource type="Script" uid="uid://wq1snavk87ao" path="res://world/multiplayer_host.gd" id="1_10ay8"]
+[ext_resource type="Theme" uid="uid://c1ssdlyrpmbi6" path="res://resources/game_theme.tres" id="1_xnv6w"]
 [ext_resource type="PackedScene" uid="uid://dv8lpcueasdlq" path="res://addons/godot-jam-template/ui/buttons/settings_button.tscn" id="2_ux7l5"]
+[ext_resource type="Shader" uid="uid://b1vtp1pkw0532" path="res://resources/shader/menu_screen.gdshader" id="3_fpevh"]
+[ext_resource type="Texture2D" uid="uid://l17ehp8ii0ui" path="res://assets/text-background.png" id="3_rg6kg"]
+[ext_resource type="Texture2D" uid="uid://umj1738ccui8" path="res://assets/btn-start.png" id="5_lu6ro"]
+[ext_resource type="PackedScene" uid="uid://dh4ekcxtj085w" path="res://addons/godot-jam-template/ui/components/control_animation.tscn" id="6_c6pyt"]
+[ext_resource type="Texture2D" uid="uid://dshtda0ts4d2h" path="res://assets/btn-start-hover.png" id="6_ub4x5"]
+[ext_resource type="PackedScene" uid="uid://dqv1insr6f2yi" path="res://addons/godot-jam-template/ui/components/button_feedback.tscn" id="8_70pwr"]
+[ext_resource type="StyleBox" uid="uid://ca0tqje6yk5xh" path="res://resources/materials/settings_style_box_texture.tres" id="8_c6pyt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lu6ro"]
+shader = ExtResource("3_fpevh")
+shader_parameter/floor_color = Color(0.12156863, 0.21176471, 0.38039216, 1)
+shader_parameter/dot_color = Color(0.16078432, 0.34509805, 0.56078434, 1)
+shader_parameter/density = 25.0
+shader_parameter/circle_size = 0.02800000133
+shader_parameter/offset = Vector2(0, -0.1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fpevh"]
+content_margin_left = 16.0
+texture = ExtResource("3_rg6kg")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mgq48"]
+content_margin_bottom = 15.0
+texture = ExtResource("5_lu6ro")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rg6kg"]
+content_margin_bottom = 19.0
+texture = ExtResource("6_ub4x5")
 
 [node name="MultiplayerHost" type="Control" unique_id=1895495425]
 layout_mode = 3
@@ -10,7 +38,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_xnv6w")
 script = ExtResource("1_10ay8")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1531589514]
+material = SubResource("ShaderMaterial_lu6ro")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
 
 [node name="ConnectingLabel" type="Label" parent="." unique_id=1007946284]
 visible = false
@@ -26,8 +65,9 @@ offset_right = 245.0
 offset_bottom = 44.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 36
 text = "CONNECTING...."
+horizontal_alignment = 1
 
 [node name="ConnectionLostLabel" type="Label" parent="." unique_id=1669314795]
 visible = false
@@ -40,42 +80,57 @@ anchor_bottom = 0.5
 offset_left = -342.0
 offset_top = -44.0
 offset_right = 342.0
-offset_bottom = 44.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 36
 text = "CONNECTION LOST ...."
+horizontal_alignment = 1
 
 [node name="PlayerNameInput" type="TextEdit" parent="." unique_id=2086877821]
+custom_minimum_size = Vector2(480, 48)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -133.0
-offset_top = 125.0
-offset_right = 133.0
-offset_bottom = 167.0
+offset_left = -132.0
+offset_top = 56.0
+offset_right = 134.0
+offset_bottom = 98.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/line_spacing = 12
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxTexture_fpevh")
 placeholder_text = "Daddio-DragonSlayer"
 
 [node name="PlayButton" type="Button" parent="." unique_id=488132602]
-custom_minimum_size = Vector2(196, 48)
+custom_minimum_size = Vector2(320, 96)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -98.0
-offset_top = -145.0
-offset_right = 98.0
+offset_left = -160.0
+offset_top = -193.0
+offset_right = 160.0
 offset_bottom = -97.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxTexture_mgq48")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_rg6kg")
+theme_override_styles/hover = SubResource("StyleBoxTexture_rg6kg")
 text = "JOIN GAME"
+
+[node name="ControlAnimation" parent="PlayButton" unique_id=219885580 instance=ExtResource("6_c6pyt")]
+animation = 0
+
+[node name="ButtonFeedback" parent="PlayButton" unique_id=1300952518 instance=ExtResource("8_70pwr")]
+pop_on_click = false
 
 [node name="SettingsButton" parent="." unique_id=377646438 instance=ExtResource("2_ux7l5")]
 custom_minimum_size = Vector2(32, 32)
@@ -88,5 +143,8 @@ offset_top = 16.0
 offset_right = -16.0
 offset_bottom = 32.0
 grow_horizontal = 0
+theme_override_styles/normal = ExtResource("8_c6pyt")
+theme_override_styles/pressed = ExtResource("8_c6pyt")
+theme_override_styles/hover = ExtResource("8_c6pyt")
 
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]

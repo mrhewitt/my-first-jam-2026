@@ -16,12 +16,14 @@ const SELF_SCENE = preload("res://entities/cube/stationary_cube.tscn")
 
 
 func _ready() -> void:
-	collision_shape_3d.shape = basic_cube.box_shape
+	#collision_shape_3d.shape = basic_cube.box_shape
 	basic_cube.set_value_size_and_material(grow_value)
+	var cube_scale = basic_cube.get_scale_factor(grow_value)
+	scale = Vector3(cube_scale,cube_scale,cube_scale)
 	# make pickup size about 10% bigger the collision shape to ensure bodies pick it
 	# update instead of sometimes bumping it if collision shapes where same size
-	pickup_collision_shape.shape = BoxShape3D.new()
-	pickup_collision_shape.shape.size = collision_shape_3d.shape.size * 1.1
+#	pickup_collision_shape.shape = BoxShape3D.new()
+#	pickup_collision_shape.shape.size = collision_shape_3d.shape.size * 1.1
 	
 
 func _on_pickup_area_entered(body: Node3D) -> void:

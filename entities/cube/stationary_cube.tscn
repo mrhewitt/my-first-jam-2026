@@ -11,6 +11,12 @@ properties/1/path = NodePath(".:grow_value")
 properties/1/spawn = true
 properties/1/replication_mode = 0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_rkbxc"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ybej"]
+size = Vector3(0.55, 0.55, 0.55)
+
 [node name="StationaryCube" type="RigidBody3D" unique_id=1615031134 groups=["stationary_cubes"]]
 collision_layer = 2
 collision_mask = 5
@@ -29,11 +35,13 @@ replication_config = SubResource("SceneReplicationConfig_rkbxc")
 [node name="BasicCube" parent="." unique_id=985122360 instance=ExtResource("1_o7358")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=960559984]
+shape = SubResource("BoxShape3D_rkbxc")
 
 [node name="PickUpArea3D" type="Area3D" parent="." unique_id=1760247424]
 collision_layer = 2
 collision_mask = 4
 
 [node name="PickupCollisionShape" type="CollisionShape3D" parent="PickUpArea3D" unique_id=1675299835]
+shape = SubResource("BoxShape3D_8ybej")
 
 [connection signal="body_entered" from="PickUpArea3D" to="." method="_on_pickup_area_entered"]

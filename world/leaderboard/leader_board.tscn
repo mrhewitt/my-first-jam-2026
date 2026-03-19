@@ -3,23 +3,40 @@
 [ext_resource type="Script" uid="uid://c0mpys5q2b8y8" path="res://world/leaderboard/leader_board.gd" id="1_v6lci"]
 [ext_resource type="PackedScene" uid="uid://kcc4xjyy4jx6" path="res://world/leaderboard/score_row_h_box_container.tscn" id="2_yytjl"]
 
-[node name="LeaderBoard" type="VBoxContainer" unique_id=333570143]
-custom_minimum_size = Vector2(180, 0)
-offset_right = 40.0
-offset_bottom = 40.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cuv7a"]
+bg_color = Color(0.019607844, 0.019607844, 0.13725491, 0.5647059)
+
+[node name="PanelContainer" type="PanelContainer" unique_id=1029900872]
+custom_minimum_size = Vector2(280, 0)
+offset_right = 180.0
+offset_bottom = 92.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cuv7a")
 script = ExtResource("1_v6lci")
 
-[node name="ScoreRow1" parent="." unique_id=2063870308 instance=ExtResource("2_yytjl")]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1403838390]
+layout_mode = 2
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="LeaderBoard" type="VBoxContainer" parent="MarginContainer" unique_id=333570143]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="ScoreRow1" parent="MarginContainer/LeaderBoard" unique_id=2063870308 instance=ExtResource("2_yytjl")]
+layout_mode = 2
+size_flags_horizontal = 1
+
+[node name="ScoreRow2" parent="MarginContainer/LeaderBoard" unique_id=133926087 instance=ExtResource("2_yytjl")]
 layout_mode = 2
 
-[node name="ScoreRow2" parent="." unique_id=133926087 instance=ExtResource("2_yytjl")]
+[node name="ScoreRow3" parent="MarginContainer/LeaderBoard" unique_id=1447225456 instance=ExtResource("2_yytjl")]
 layout_mode = 2
 
-[node name="ScoreRow3" parent="." unique_id=1447225456 instance=ExtResource("2_yytjl")]
+[node name="ScoreRow4" parent="MarginContainer/LeaderBoard" unique_id=1302287579 instance=ExtResource("2_yytjl")]
 layout_mode = 2
 
-[node name="ScoreRow4" parent="." unique_id=1302287579 instance=ExtResource("2_yytjl")]
-layout_mode = 2
-
-[node name="ScoreRow5" parent="." unique_id=1255553945 instance=ExtResource("2_yytjl")]
+[node name="ScoreRow5" parent="MarginContainer/LeaderBoard" unique_id=1255553945 instance=ExtResource("2_yytjl")]
 layout_mode = 2

@@ -13,6 +13,10 @@ static var world_camera: Camera3D = null
 
 @onready var camera_3d_2: Camera3D = $Camera3D2
 
+## Which entry into WORM_HEAD group is debug camera on[br]
+## Not initialized, just starts incrementing each time you press DEBUG_CAMERA action
+var debug_camera_index: int = 0
+
 
 func _ready() -> void:
 	# Make a ref to our camera so other nodes in the world can essily access camera setup
@@ -20,6 +24,13 @@ func _ready() -> void:
 	var angle: float = (PI/180) * 60
 	camera_3d_2.position = Vector3(0,sin(angle),cos(angle)) * 15
 	camera_3d_2.look_at(Vector3.ZERO)
+	
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.is_action_released("debug_camera"):
+		debug_camera_index = (debug_camera_index+1) % get_tree().get_node_count_in_group(Groups.WORM_HEAD)
+		worm_to_follow = get_tree().get_nodes_in_group(Groups.WORM_HEAD)[debug_camera_index]
+			
 	
 
 func _physics_process(_delta: float) -> void:

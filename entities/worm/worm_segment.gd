@@ -45,6 +45,11 @@ func _init( value: int = 1 ) -> void:
 	
 func _ready() -> void:
 	setup_size()
+	# if we are a segment (owned) make sure we cannot collide with our own head
+	if owned_by != null:
+		add_collision_exception_with(owned_by)
+		owned_by.add_collision_exception_with(self)
+		
 	#collision_shape_3d.shape = basic_cube.box_shape
 	#basic_cube.set_value_size_and_material(grow_value)
 	#set_hurtbox_collision_size()
@@ -93,6 +98,8 @@ func merge_with_puller() -> void:
 	pulled_by.grow_value += 1
 	pulled_by.pulling_cube = pulling_cube
 	if pulling_cube:
+		# shift position of cubes in our tail forward
+		pulling_cube.reposition()
 		pulling_cube.pulled_by = pulled_by
 	pulled_by.start_merge_check_clock()
 	merging = false
@@ -203,7 +210,8 @@ func hit_by_worm( body  ) -> void:
 func check_start_merge_block() -> void:
 	# we can merge into block in front of us provuided it is same value as us, and we are the last
 	# block of this value in the chain
-	if pulled_by and pulled_by.grow_value == grow_value and ( pulling_cube == null or pulling_cube.grow_value < grow_value):
+	if pulled_by and pulled_by.grow_value == grow_value: #and ( pulling_cube == null or pulling_cube.grow_value < grow_value):
+		owned_by.play_merge_sound.rpc()
 		merging = true
 		# go into the target blopck
 		target_position_index = pulled_by.target_position_index
@@ -214,8 +222,6 @@ func check_start_merge_block() -> void:
 func create_worm_segment( value: int ) -> WormSegment:
 	var segment := WormSegment.instance( self if self.owned_by == null else self.owned_by, value )
 	get_parent().add_child( segment )
-	#var td = get_tow_distance()
-	#segment.global_position = global_position + Vector3( sin(rotation.y+PI) * td, 0, cos(rotation.y+PI) * -td )
 	return segment
 
 
@@ -230,12 +236,12 @@ func _on_timer_timeout() -> void:
 
 func _on_hurt_box_hit_by(body: WormHeadCube) -> void:
 	hit_by_worm( body )
-	
-	
-static func instance( owned_by: WormHeadCube, grow_value: int = 1 ) -> WormSegment:
+		
+		
+static func instance( _owned_by: WormHeadCube, _grow_value: int = 1 ) -> WormSegment:
 	var scene_instance: WormSegment = SELF_SCENE.instantiate()
 	# segments are named after the network id of owner 
-	scene_instance.name = NetworkManager.get_unique_name("Segment_" + owned_by.name) 
-	scene_instance.grow_value = grow_value
-	scene_instance.owned_by = owned_by
+	scene_instance.name = NetworkManager.get_unique_name("Segment_" + _owned_by.name) 
+	scene_instance.grow_value = _grow_value
+	scene_instance.owned_by = _owned_by
 	return scene_instance

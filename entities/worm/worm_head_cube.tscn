@@ -4,16 +4,24 @@
 [ext_resource type="Script" uid="uid://brgn5frysesc7" path="res://entities/worm/head_to_point_3d.gd" id="2_oya5t"]
 [ext_resource type="Script" uid="uid://10qr6k84f6f4" path="res://entities/worm/worm_head_cube.gd" id="2_sftr0"]
 [ext_resource type="PackedScene" uid="uid://bhxn6ubwqpdu0" path="res://entities/worm/mouse_tracker_provider.tscn" id="3_qh6x4"]
+[ext_resource type="PackedScene" uid="uid://ccfmywfa4ouja" path="res://entities/worm/boost_speed_progress.tscn" id="5_pj2n4"]
+[ext_resource type="Script" uid="uid://dapy64keqipni" path="res://entities/worm/player_name_label.gd" id="6_6c45n"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qh6x4"]
 properties/0/path = NodePath(".:player_name")
 properties/0/spawn = true
 properties/0/replication_mode = 0
+properties/1/path = NodePath(".:boost_speed_time")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_p6x5w"]
 properties/0/path = NodePath(".:destination_point")
 properties/0/spawn = true
 properties/0/replication_mode = 2
+properties/1/path = NodePath(".:apply_boost_speed")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qh6x4"]
 size = Vector2(0.5, 2)
@@ -21,10 +29,12 @@ size = Vector2(0.5, 2)
 [node name="WormHeadCube" unique_id=207147902 groups=["worm_heads"] instance=ExtResource("1_uyboy")]
 collision_layer = 4
 collision_mask = 13
+slide_on_ceiling = false
 script = ExtResource("2_sftr0")
 speed = 3.0
 player_name = "You"
 input_provider_scene = ExtResource("3_qh6x4")
+boost_speed_time = 3.0
 
 [node name="HeadDataSynchronizer" type="MultiplayerSynchronizer" parent="." index="1" unique_id=1506194406]
 replication_config = SubResource("SceneReplicationConfig_qh6x4")
@@ -35,9 +45,10 @@ script = ExtResource("2_oya5t")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="HeadToPoint3D" index="0" unique_id=199178005]
 replication_config = SubResource("SceneReplicationConfig_p6x5w")
 
-[node name="PlayerNameLabel" type="Label3D" parent="." index="8" unique_id=1785087902]
+[node name="dPlayerNameLabel" type="Label3D" parent="." index="8" unique_id=1785087902]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8118515, 0)
-billboard = 2
+visible = false
+billboard = 1
 text = "PLAYER NAME"
 font_size = 48
 
@@ -45,3 +56,13 @@ font_size = 48
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 1)
 visible = false
 mesh = SubResource("PlaneMesh_qh6x4")
+
+[node name="BoostSpeedProgress" parent="." index="10" unique_id=1917302470 instance=ExtResource("5_pj2n4")]
+offset_right = 33.0
+offset_bottom = 25.0
+radial_center_offset = Vector2(4, 0)
+
+[node name="PlayerNameLabel" type="Label" parent="." index="11" unique_id=1306467464]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("6_6c45n")
