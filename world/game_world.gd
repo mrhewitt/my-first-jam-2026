@@ -10,18 +10,25 @@ extends GameScene3D
 @onready var walls: Node3D = $NavigationRegion3D/Walls
 @onready var game_over_canvas_layer: CanvasLayer = $GameOverCanvasLayer
 @onready var game_canvas_layer: GameCanvasLayer = $GameCanvasLayer
+@onready var block_spawn_timer: Timer = $BlockSpawnTimer
 
 # track which AI spawn point was last used, we move to next one each time we attempt
 # to create an AI player
 var last_ai_spawn_point: int = -1
+
 
 func _ready() -> void:
 	if multiplayer.is_server():
 		# remove UI layers on server, mostly just to make debug easier
 		game_over_canvas_layer.queue_free()
 		game_canvas_layer.queue_free()
-		get_tree().create_timer(1).timeout.connect( func(): spawn_blocks(50) )
-	
+		
+		# after all is booted up, put 50 blocks into game to start the map
+		get_tree().create_timer(1).timeout.connect( func(): spawn_blocks(Settings.MAX_BLOCKS_IN_MAP) )
+		
+		# setup and start startionary block spawn timer to fill in blocks that are eaten
+		block_spawn_timer.start_in_range( Settings.MIN_BLOCK_RESPAWN_TIME,Settings.MAX_BLOCK_RESPAWN_TIME )
+		
 
 func _process(_delta: float) -> void:
 	if multiplayer.is_server():
@@ -31,6 +38,9 @@ func _process(_delta: float) -> void:
 			if get_tree().get_node_count_in_group(Groups.AI) == 0:
 				for child in ai_spawn_points.get_children():
 					create_ai_player()
+					
+		# check number of stationary blocks, if there are less than 35 start a timer going
+		# to start ranomly adding blocks back into the level
 
 
 func link() -> void:
@@ -109,9 +119,11 @@ func create_player( player_name: String) -> void:
 	instance.player_name = player_name
 	instance.grow_value = 1
 	instance.global_position = spawn_point.global_position
+	# make sure its in group of human players, done manually as ai and human use same player node
 	instance.add_to_group( Groups.PLAYERS )
 	
 	add_child(instance)
+	instance.show_join_notification()
 
 
 func create_ai_player() -> void:
@@ -141,9 +153,8 @@ func create_ai_player() -> void:
 	
 	add_child(instance)
 	instance.global_position = ai_spawn_points.get_child(last_ai_spawn_point).global_position
-	#instance.global_position.y = 0.66
 
-	RemoteCall.show_event("%s joined the game" % instance.player_name)
+	instance.show_join_notification()
 	
 
 func spawn_powerup( powerup: PowerUpResource ) -> void:
@@ -196,3 +207,14 @@ static	func is_in_clear_space( node: Node3D ) -> bool:
 		return false
 	
 	return true
+
+
+func _on_block_spawn_timer_timeout() -> void:
+	# count how many blocks are in the world, then add back between 10-25% of that
+	var blocks_left: float = get_tree().get_node_count_in_group(Groups.CUBE_GROUP)
+	var can_spawn: float = Settings.MAX_BLOCKS_IN_MAP - blocks_left
+	# do nothing if more than 90% in map
+	if blocks_left/Settings.MAX_BLOCKS_IN_MAP < 0.9: 
+		# pick between 10-25 by selecting probability, then get value of that and make int
+		var spawn_count:int = ceil( randf_range(0.2,0.4) * can_spawn )
+		spawn_blocks(spawn_count)

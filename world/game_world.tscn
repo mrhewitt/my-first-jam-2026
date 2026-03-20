@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://cqbo7uri4s2pe" path="res://assets/tutorial/tutorial-2-bk.png" id="18_uce4y"]
 [ext_resource type="Texture2D" uid="uid://cgyh3cot4dxur" path="res://assets/tutorial/tutorial-mouse-down.png" id="19_6rc46"]
 [ext_resource type="Texture2D" uid="uid://yxo1aaal5x1u" path="res://assets/btn-continue.png" id="22_uce4y"]
+[ext_resource type="Script" uid="uid://drc6ywb3777oa" path="res://addons/godot-jam-template/components/range_timer.gd" id="24_6rc46"]
 
 [sub_resource type="Environment" id="Environment_s5sgh"]
 background_mode = 2
@@ -235,8 +236,6 @@ radius = 8.0
 sides = 40
 material = ExtResource("6_hdkfl")
 
-[node name="PlayerClients" type="Node3D" parent="." unique_id=2055653693]
-
 [node name="GameCanvasLayer" type="CanvasLayer" parent="." unique_id=1085123907]
 script = ExtResource("7_1i7os")
 
@@ -442,9 +441,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 50)
 visible = false
 size = Vector3(100, 20, 1)
 
-[node name="Marker3D" type="Marker3D" parent="." unique_id=574199482]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 0.5, 11)
+[node name="BlockSpawnTimer" type="Timer" parent="." unique_id=5345428]
+script = ExtResource("24_6rc46")
 
 [connection signal="animation_finished" from="GameCanvasLayer/Tutorial/AnimationPlayer" to="GameCanvasLayer/Tutorial" method="_on_animation_player_animation_finished"]
 [connection signal="pressed" from="GameOverCanvasLayer/MaskColorRect/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="timeout" from="PowerupSpawnTimer" to="." method="_on_powerup_spawn_timer_timeout"]
+[connection signal="timeout" from="BlockSpawnTimer" to="." method="_on_block_spawn_timer_timeout"]

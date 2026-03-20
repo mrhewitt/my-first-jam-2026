@@ -15,8 +15,10 @@ var do_reachable_check: bool = false
 
 ## Maintains a list of unreachable cubes as they cna be pushed/spawn just outside[br]
 ## edge of the navigation region bordering a wall
-var unreadable_cubes: Array
+var unreachable_cubes: Array
 var target_cube: StationaryCube = null
+
+var debug: bool = false
 
 
 func _ready() -> void:
@@ -39,15 +41,16 @@ func _physics_process(_delta: float) -> void:
 		if not navigation_agent.is_target_reachable():
 			# if we are navigating to a cube, add it to list of unreachables and try again
 			if state == NavigationState.COLLECTING_CUBE:
-				unreadable_cubes.append(target_cube)
+				unreachable_cubes.append(target_cube)
 				target_cube = null 
 				
 			state = NavigationState.NOT_STARTED
-			print("%s invalid target " % get_parent().player_name, navigation_agent.target_position, " at ", get_parent().global_position, ", dist: ", (navigation_agent.target_position-get_parent().global_position).length())
-			print( "Size ", worm_head.get_block_size(), " ; Y: ", worm_head.global_position.y )
+			if debug: print("%s invalid target " % get_parent().player_name, navigation_agent.target_position, " at ", get_parent().global_position, ", dist: ", (navigation_agent.target_position-get_parent().global_position).length())
+			if debug: print( "Size ", worm_head.get_block_size(), " ; Y: ", worm_head.global_position.y )
 		else:
-			print("%s reachable target " %  get_parent().player_name,navigation_agent.target_position)
-			print( "Size ", worm_head.get_block_size(), " ; Y: ", worm_head.global_position.y )
+			if debug: print("%s reachable target " %  get_parent().player_name,navigation_agent.target_position)
+			if debug: print( "Size ", worm_head.get_block_size(), " ; Y: ", worm_head.global_position.y )
+			pass
 		do_reachable_check = false
 	
 	#	new_point.emit( next_agent_point )		
@@ -59,16 +62,25 @@ func compute_destination_point() -> void:
 	# look and see if any blocks are near by, go there if so
 	if state == NavigationState.WANDERING or state == NavigationState.NOT_STARTED:
 		target_cube = null
+		var closest_distance: float = 99999.0
 		for cube in get_tree().get_nodes_in_group(Groups.CUBE_GROUP):
 			if cube.grow_value <= worm_head.grow_value and (cube.global_position - worm_head.global_position).length() < 5:
-				if target_cube == null or target_cube.grow_value < cube.grow_value and not unreadable_cubes.has(cube):
-					target_cube = cube	
-		
+				# with in range, make sure its not in unreachable list, and if ok, go there if its first one we found or if
+				# it is the closest one
+				if not unreachable_cubes.has(cube):
+					var distance_to_cube: float = (cube.global_position - worm_head.global_position).length()
+					# goto first target found or goto a better target or go to smiliar target thats closer
+					if target_cube == null or  \
+					   cube.grow_value > target_cube.grow_value  or  \
+					  (cube.grow_value == target_cube.grow_value and distance_to_cube < closest_distance):
+						target_cube = cube	
+						closest_distance = distance_to_cube
+						
 		if target_cube:
 			# head to a position that is on cude X/Z my level with my y (so bigger worm heads dont try to dive into the ground
 			var target_position := Vector3( target_cube.global_position.x, worm_head.global_position.y, target_cube.global_position.z)
+			if debug: print( "%s (%s) Going to cube at " % [get_parent().name, get_parent().player_name], target_position)
 			navigate_to(target_position)
-			print( "%s (%s) Going to cube at " % [get_parent().name, get_parent().player_name], target_position)
 			state = NavigationState.COLLECTING_CUBE
 			return
 			
@@ -81,7 +93,7 @@ func navigate_to( point: Vector3 ) -> void:
 	#point.y = 0.5
 	navigation_agent.path_height_offset = 0.5 - worm_head.global_position.y
 	navigation_agent.target_position = point
-	print("%s navigating to " % worm_head.player_name, navigation_agent.target_position, " from ", worm_head.global_position, " dist:", (navigation_agent.target_position-worm_head.global_position).length())
+	if debug: print("%s navigating to " % worm_head.player_name, navigation_agent.target_position, " from ", worm_head.global_position, " dist:", (navigation_agent.target_position-worm_head.global_position).length())
 	do_reachable_check = true
 	#var next_agent_point = navigation_agent.get_next_path_position()
 	#next_agent_point.y = point.y
@@ -106,7 +118,7 @@ func _goto_next_point() -> void:
 	#	state = NavigationState.NOT_STARTED
 	
 	if last_target_point.x != next_point.x or last_target_point.z != next_point.z:
-		print("%s heading to new point " % worm_head.player_name, next_point, " from ", last_target_point)
+		if debug: print("%s heading to new point " % worm_head.player_name, next_point, " from ", last_target_point)
 		new_point.emit( next_point )
 		last_target_point = next_point
 

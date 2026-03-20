@@ -155,6 +155,10 @@ func killed() -> void:
 	queue_free()
 	
 	
+func show_join_notification() -> void:
+	RemoteCall.show_event.rpc("%s joined the game" % player_name)
+	
+
 ## Called from sevrer when player dies to let the players know, fires been_killed[br]
 ## Only the who asked for this player will be subsribed to the signal and can do UI work
 @rpc("authority","call_remote")
@@ -176,7 +180,7 @@ func hide_trail() -> void:
 @rpc("authority","call_remote")
 func play_eat_sound() -> void:
 	# only play the sound on the client who did the eating
-	if int(name) == multiplayer.get_unique_id():
+	if name == str(multiplayer.get_unique_id()):
 		EAT_SOUND.play()
 
 
