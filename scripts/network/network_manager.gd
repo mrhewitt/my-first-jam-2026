@@ -6,7 +6,7 @@ extends Node
 
 const SERVER_PORT = "6069"
 const DEV_SERVER_ADDR = "ws://127.0.0.1:" + SERVER_PORT
-const PROD_SERVER_ADDR = "wss://server.dragonslayergames.co.za:" + SERVER_PORT
+const PROD_SERVER_ADDR = "ws://51.20.176.195:" + SERVER_PORT
 
 ## Emitted when a client loses connection to a server
 signal server_connection_lost
