@@ -20,7 +20,7 @@ func boot_game() -> void:
 	map_host = %MapHost
 	multiplayer_spawner = %MultiplayerSpawner
 	
-	if "--server" in OS.get_cmdline_args():
+	if "--server" in OS.get_cmdline_args() or OS.has_feature("server"):
 		add_child( HOST_SERVER.instantiate()  )
 	elif "--game" in OS.get_cmdline_args():
 		add_child( MULTIPLAYER_HOST.instantiate()  )

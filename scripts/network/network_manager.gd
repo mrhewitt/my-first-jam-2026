@@ -5,7 +5,7 @@ extends Node
 
 
 const SERVER_PORT = 6069
-const SERVER_ADDR = "ws://127.0.0.1:6069"
+const SERVER_ADDR = "ws://51.20.176.195:6069"
 
 
 ## Emitted when a client loses connection to a server

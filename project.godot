@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Worm Battle"
+config/name="Worms Cubed"
 run/main_scene="uid://dn2hsvjptsngj"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
