@@ -26,6 +26,7 @@ const CUBE_MATERIAL = preload("res://resources/materials/cubes/cube_material.tre
 #@export var shape_mesh: PrimitiveMesh 
 
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
+@onready var cube_value_label: Label3D = $CubeValueLabel
 
 
 func _ready() -> void:
@@ -40,9 +41,15 @@ func set_value_size_and_material( grow_value: int ) -> void:
 	##var size: float = _scale * min_size
 	##box_shape.size = Vector3(size,size,size) 
 	##mesh_instance_3d.scale = Vector3( _scale, _scale, _scale )
-	var material: StandardMaterial3D = CUBE_MATERIAL.duplicate()
+	var material = CUBE_MATERIAL.duplicate()
 	material.albedo_color = color_list[grow_value-1]
 	mesh_instance_3d.material_override = material
+	
+	var value:int = int(pow(2,grow_value))
+	if value > 512:
+		cube_value_label.text = str(value/1024) + "k"
+	else:
+		cube_value_label.text = str(value)
 	
 	
 ## scale of the object is the base growth factor to the exponent of the[br]

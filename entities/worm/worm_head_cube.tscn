@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://brgn5frysesc7" path="res://entities/worm/head_to_point_3d.gd" id="2_oya5t"]
 [ext_resource type="Script" uid="uid://10qr6k84f6f4" path="res://entities/worm/worm_head_cube.gd" id="2_sftr0"]
 [ext_resource type="PackedScene" uid="uid://bhxn6ubwqpdu0" path="res://entities/worm/mouse_tracker_provider.tscn" id="3_qh6x4"]
+[ext_resource type="Material" uid="uid://6hbgb16pva5w" path="res://resources/materials/speed_trail_material.tres" id="5_fl7pi"]
 [ext_resource type="PackedScene" uid="uid://ccfmywfa4ouja" path="res://entities/worm/boost_speed_progress.tscn" id="5_pj2n4"]
 [ext_resource type="Script" uid="uid://dapy64keqipni" path="res://entities/worm/player_name_label.gd" id="6_6c45n"]
 
@@ -45,24 +46,24 @@ script = ExtResource("2_oya5t")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="HeadToPoint3D" index="0" unique_id=199178005]
 replication_config = SubResource("SceneReplicationConfig_p6x5w")
 
-[node name="dPlayerNameLabel" type="Label3D" parent="." index="8" unique_id=1785087902]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8118515, 0)
+[node name="TowPointMarker" parent="." index="5" unique_id=1874791116]
 visible = false
-billboard = 1
-text = "PLAYER NAME"
-font_size = 48
 
-[node name="EffectTrailMesh" type="MeshInstance3D" parent="." index="9" unique_id=730846390]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 1)
+[node name="AttachmentPointMarker" parent="." index="6" unique_id=522962880]
 visible = false
+
+[node name="EffectTrailMesh" type="MeshInstance3D" parent="." index="8" unique_id=730846390]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.25, 1)
+visible = false
+material_override = ExtResource("5_fl7pi")
 mesh = SubResource("PlaneMesh_qh6x4")
 
-[node name="BoostSpeedProgress" parent="." index="10" unique_id=1917302470 instance=ExtResource("5_pj2n4")]
+[node name="BoostSpeedProgress" parent="." index="9" unique_id=1917302470 instance=ExtResource("5_pj2n4")]
 offset_right = 33.0
 offset_bottom = 25.0
 radial_center_offset = Vector2(4, 0)
 
-[node name="PlayerNameLabel" type="Label" parent="." index="11" unique_id=1306467464]
+[node name="PlayerNameLabel" type="Label" parent="." index="10" unique_id=1306467464]
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("6_6c45n")

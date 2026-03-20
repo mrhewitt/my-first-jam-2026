@@ -16,10 +16,11 @@ const SELF_SCENE = preload("uid://bhmi3a6gxf46s")
 @export var owned_by: WormHeadCube
 
 ## Number of times its grown out, 1 == 2, 2 == 4, 3 == 8 etc[br]
-## [i]Numer value of the block is pow(2,grow_value)[/i]
+## [i]Numer value of the block is pow(2,grow_value)[/i][br]
+## Clamped in this version to between 2 and 2048
 @export var grow_value: int = 1:
 	set(value):
-		grow_value = value
+		grow_value = clamp(value,1,11)
 		setup_size()
 			#set_hurtbox_collision_size()
 
@@ -96,11 +97,14 @@ func get_block_size() -> float:
 
 func merge_with_puller() -> void:
 	pulled_by.grow_value += 1
-	pulled_by.pulling_cube = pulling_cube
-	if pulling_cube:
-		# shift position of cubes in our tail forward
-		pulling_cube.reposition()
-		pulling_cube.pulled_by = pulled_by
+	if is_instance_valid(pulling_cube):
+		pulled_by.pulling_cube = pulling_cube
+		if pulling_cube:
+			# shift position of cubes in our tail forward
+			pulling_cube.reposition()
+			pulling_cube.pulled_by = pulled_by
+	else:
+		pulled_by.pulling_cube = null
 	pulled_by.start_merge_check_clock()
 	merging = false
 	queue_free()

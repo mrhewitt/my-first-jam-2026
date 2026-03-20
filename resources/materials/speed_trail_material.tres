@@ -5,3 +5,15 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_25sql")
+shader_parameter/detail_strength = 3.0
+shader_parameter/scroll_speed = 2.0
+shader_parameter/fire_height = 1.0
+shader_parameter/fire_shape = 0.1
+shader_parameter/fire_thickness = 0.75
+shader_parameter/fire_sharpness = 1.0
+shader_parameter/intensity = 1.0
+shader_parameter/noise_octaves = 8
+shader_parameter/noise_lacunarity = 3.0
+shader_parameter/noise_gain = 0.5
+shader_parameter/noise_amplitude = 1.0
+shader_parameter/noise_frequency = 1.5

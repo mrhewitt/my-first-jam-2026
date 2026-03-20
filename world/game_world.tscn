@@ -17,11 +17,11 @@
 [ext_resource type="PackedScene" uid="uid://dh4ekcxtj085w" path="res://addons/godot-jam-template/ui/components/control_animation.tscn" id="11_hdkfl"]
 [ext_resource type="Script" uid="uid://je7b4gnhu8k6" path="res://world/tutorial.gd" id="14_05omo"]
 [ext_resource type="Texture2D" uid="uid://vrtrwv646q85" path="res://assets/tutorial/tutorial-1-bk.png" id="14_druaq"]
-[ext_resource type="Texture2D" uid="uid://ewd3k10s8qf6" path="res://assets/GameOver_33.png" id="14_h77br"]
 [ext_resource type="Texture2D" uid="uid://b27rv4sseh3y4" path="res://assets/14.png" id="15_m8301"]
 [ext_resource type="Texture2D" uid="uid://bgtira04o771l" path="res://assets/tutorial/tutorial-mouse.png" id="16_u30do"]
 [ext_resource type="Texture2D" uid="uid://cqbo7uri4s2pe" path="res://assets/tutorial/tutorial-2-bk.png" id="18_uce4y"]
 [ext_resource type="Texture2D" uid="uid://cgyh3cot4dxur" path="res://assets/tutorial/tutorial-mouse-down.png" id="19_6rc46"]
+[ext_resource type="Texture2D" uid="uid://b1xe1nm8xkakw" path="res://assets/game-over.png" id="21_6rc46"]
 [ext_resource type="Texture2D" uid="uid://yxo1aaal5x1u" path="res://assets/btn-continue.png" id="22_uce4y"]
 [ext_resource type="Script" uid="uid://drc6ywb3777oa" path="res://addons/godot-jam-template/components/range_timer.gd" id="24_6rc46"]
 
@@ -355,12 +355,12 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -290.0
+offset_left = -289.0
 offset_top = 42.0
-offset_right = 290.0
+offset_right = 291.0
 offset_bottom = 190.0
 grow_horizontal = 2
-texture = ExtResource("14_h77br")
+texture = ExtResource("21_6rc46")
 expand_mode = 1
 
 [node name="PositionLabel" type="Label" parent="GameOverCanvasLayer/MaskColorRect" unique_id=1832696097]
@@ -409,6 +409,7 @@ offset_bottom = -56.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.26171875, 0.2298106, 0.17481995, 1)
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxTexture_esbob")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_6rc46")
 theme_override_styles/hover = SubResource("StyleBoxTexture_6rc46")

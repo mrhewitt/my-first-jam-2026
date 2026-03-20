@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dv8lpcueasdlq" path="res://addons/godot-jam-template/ui/buttons/settings_button.tscn" id="2_ux7l5"]
 [ext_resource type="Shader" uid="uid://b1vtp1pkw0532" path="res://resources/shader/menu_screen.gdshader" id="3_fpevh"]
 [ext_resource type="Texture2D" uid="uid://l17ehp8ii0ui" path="res://assets/text-background.png" id="3_rg6kg"]
+[ext_resource type="Texture2D" uid="uid://b6t18of7i6y7a" path="res://assets/title.png" id="4_ub4x5"]
 [ext_resource type="Texture2D" uid="uid://umj1738ccui8" path="res://assets/btn-start.png" id="5_lu6ro"]
 [ext_resource type="PackedScene" uid="uid://dh4ekcxtj085w" path="res://addons/godot-jam-template/ui/components/control_animation.tscn" id="6_c6pyt"]
 [ext_resource type="Texture2D" uid="uid://dshtda0ts4d2h" path="res://assets/btn-start-hover.png" id="6_ub4x5"]
@@ -50,6 +51,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=499691484]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -379.0
+offset_top = 60.0
+offset_right = 379.0
+offset_bottom = 259.0
+grow_horizontal = 2
+texture = ExtResource("4_ub4x5")
 
 [node name="ConnectingLabel" type="Label" parent="." unique_id=1007946284]
 visible = false

@@ -168,7 +168,14 @@ func spawn_powerup( powerup: PowerUpResource ) -> void:
 func _on_powerup_spawn_timer_timeout() -> void:
 	# check to see how many power ups we have, if there are not enough spawn one
 	if get_tree().get_node_count_in_group(Groups.POWERUPS) < Settings.MAX_POWERUPS_ON_MAP:
-		spawn_powerup( PowerUpScene.POWERUPS.pick_random() )
+		# balance powerups, hard-coded quick minutes before final build, will fix later
+		var r = randf()
+		if r < 0.6:
+			spawn_powerup(PowerUpScene.DOUBLE_SPEED_POWER_UP )
+		elif r < 0.95:
+			spawn_powerup(PowerUpScene.RESET_SIZE_POWERUP )
+		else:
+			spawn_powerup(PowerUpScene.DOUBLE_POWER_UP )
 		 
 
 ## Fired on client when player has been killed

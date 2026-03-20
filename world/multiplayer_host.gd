@@ -68,6 +68,7 @@ func _on_connected( remote_peer_id: int) -> void:
 	level_instance = GAME_WORLD.instantiate()
 	# we want to know when play dies or exits game
 	level_instance.goto_return_state.connect( _on_leave_game )
+	level_instance.quit_requested.connect( _on_leave_game )
 	# remain hidden until player node is fully replicated to us
 	level_instance.visible = false
 	Bootstrap.map_host.add_child(level_instance)

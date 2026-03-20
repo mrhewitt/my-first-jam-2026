@@ -4,9 +4,9 @@ extends Node
 ##
 
 
-const SERVER_PORT = 6069
-const SERVER_ADDR = "ws://51.20.176.195:6069"
-
+const SERVER_PORT = "6069"
+const DEV_SERVER_ADDR = "ws://127.0.0.1:" + SERVER_PORT
+const PROD_SERVER_ADDR = "wss://server.dragonslayergames.co.za:" + SERVER_PORT
 
 ## Emitted when a client loses connection to a server
 signal server_connection_lost
@@ -30,7 +30,7 @@ func _ready() -> void:
 
 func create_server() -> void:
 	var network_peer: WebSocketMultiplayerPeer = WebSocketMultiplayerPeer.new()
-	network_peer.create_server(SERVER_PORT)
+	network_peer.create_server(int(SERVER_PORT))
 	get_multiplayer().multiplayer_peer = network_peer
 	print("Server created")
 	server_started.emit()
@@ -40,7 +40,7 @@ func connect_to_server( ) -> void:
 	_setup_client_connection_signals()
 	
 	var network_peer: WebSocketMultiplayerPeer = WebSocketMultiplayerPeer.new()
-	network_peer.create_client(SERVER_ADDR)
+	network_peer.create_client( PROD_SERVER_ADDR if OS.has_feature("production") else DEV_SERVER_ADDR)
 	get_multiplayer().multiplayer_peer = network_peer
 	
 	print("Client connection pending")

@@ -28,6 +28,10 @@ Game="*uid://bbpcfebamlxy5"
 NetworkManager="*uid://6x2n37o1p3fu"
 RemoteCall="*uid://vq2tlqqjmhyl"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor]
 
 movie_writer/movie_file="C:/GameDev/Projects/Jams/MyFirstJam/worm-battle/build/media/jam-mid-way.avi"

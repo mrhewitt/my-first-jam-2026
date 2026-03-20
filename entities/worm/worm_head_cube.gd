@@ -3,7 +3,7 @@ extends WormSegment
 ## Specialized WormSegment that provides the "player" node for this game
 
 
-const MAX_LOCATION_HISTORY = 240
+const MAX_LOCATION_HISTORY = 480
 
 const EAT_SOUND = preload("res://resources/audio/collect_cube_sfx.tres")
 const MERGE_CUBE_SFX = preload("uid://cpljo8x3yexmd")
@@ -187,5 +187,5 @@ func play_eat_sound() -> void:
 @rpc("authority","call_remote")
 func play_merge_sound() -> void:
 	# only play the sound on the client who did the eating
-	if int(owned_by.name if owned_by else name) == multiplayer.get_unique_id():
+	if owned_by.name if owned_by else name == str(multiplayer.get_unique_id()):
 		MERGE_CUBE_SFX.play()
